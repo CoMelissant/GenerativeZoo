@@ -35,7 +35,7 @@ def get_args_HierarchicalVAE():
 
 
 def parse_args_HierarchicalVAE():
-    return get_args_HierarchicalVAE.parse_args()
+    return get_args_HierarchicalVAE().parse_args()
 
 
 def get_args_RealNVP():
