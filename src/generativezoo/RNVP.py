@@ -36,7 +36,7 @@ def run_RealNVP(args):
         if args.checkpoint is not None:
             model.load_state_dict(torch.load(args.checkpoint))
 
-        model.sample(16, train=False)
+        return model.sample(16, train=False)
 
     elif args.outlier_detection:
         in_loader, img_size, channels = pick_dataset(args.dataset, mode = 'val', batch_size=args.batch_size, normalize = False, size=size)
