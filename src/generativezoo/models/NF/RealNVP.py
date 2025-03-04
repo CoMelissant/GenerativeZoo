@@ -585,9 +585,10 @@ class RealNVP(nn.Module):
 
         x = x.clamp(0, 1).cpu().detach()
         grid = make_grid(x, nrow=int(n_samples ** 0.5), padding=0)
+        result = grid.permute(1, 2, 0)
         if not self.from_ui:
             fig = plt.figure(figsize=(10, 10))
-            plt.imshow(grid.permute(1, 2, 0))
+            plt.imshow(result)
             plt.axis('off')
             if train:
                 if not self.no_wandb:
@@ -597,7 +598,7 @@ class RealNVP(nn.Module):
             plt.close(fig)
         else:
             #outputs.grid = grid
-            return grid
+            return result
 
 
     def outlier_detection(self, in_loader, out_loader):
