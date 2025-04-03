@@ -26,7 +26,7 @@ You will need:
 - `Make`
 - a `.secrets` file with the required secrets and credentials
 - load environment variables from `.env`
-- `NVIDIA Drivers`(mandatory) and `CUDA >= 12.1` (mandatory if Docker is not used)
+- `NVIDIA Drivers`(mandatory) and `CUDA >= 12.1` (mandatory if Docker/Apptainer is not used)
 - `Weights & Biases` account
 
 ## Installation
@@ -34,25 +34,55 @@ You will need:
 Clone this repository (requires git ssh keys)
 
     git clone --recursive git@github.com:caetas/GenerativeZoo.git
-    cd generativezoo
+    cd GenerativeZoo
 
-### Using Docker
+### Using Docker or Apptainer
 
-Create the image using the provided [`Dockerfile`](Dockerfile) and then run the container:
+Create a `.secrets` file and add your Weights & Biases API Key:
+
+    WANDB_API_KEY = <your-wandb-api-key>
+
+#### Docker
+
+Create the image using the provided [`Dockerfile`](Dockerfile)
 
     docker build --tag generativezoo .
-    docker create --gpus all --shm-size=1g -i --name generativezoo_container generativezoo
-    docker start generativezoo_container
+
+Or download it from the Hub:
+
+    docker pull docker://ocaetas/generativezoo
+
+Then run the script [`job_docker.sh`](scripts/job_docker.sh) that will execute [`main.sh`](scripts/main.sh):
+
+    cd scripts
+    bash job_docker.sh
 
 To access the shell, please run:
 
-    docker exec -it generativezoo_container /bin/bash
+    docker run --rm -it --gpus all --ipc=host --env-file .env -v $(pwd)/:/app/ generativezoo bash
 
-**Note: Edit the [`Dockerfile`](Dockerfile) if you want to include data or model checkpoints in your image.**
+#### Apptainer
+
+Convert the Docker Image to a `.sif` file:
+
+    apptainer pull generativezoo.sif docker://ocaetas/generativezoo
+
+Then run the script [`job_apptainer.sh`](scripts/job_apptainer.sh) that will execute [`main.sh`](scripts/main.sh):
+    
+    cd scripts
+    bash job_apptainer.sh
+
+To access the shell, please run:
+
+    apptainer shell --nv --env-file .env --bind $(pwd)/:/app/ generativezoo.sif
+
+**Add the flag `--nvccli` if you are using WSL.**
+
+**Note: Edit the [`main.sh`](scripts/main.sh) script if you want to train a different model.**
 
 ### Normal Installation
 
-or if environment already exists
+Create the Conda Environment:
 
     conda env create -f environment.yml
     conda activate python3.10
@@ -125,7 +155,7 @@ The listed models are already implemented and fully integrated in the model zoo.
 #### Normalizing Flows
 
 - Vanilla Flow [`Paper`](https://arxiv.org/abs/1505.05770) | [`Code`](src/generativezoo/models/NF/VanillaFlow.py)<sup>14</sup> | [`Script`](src/generativezoo/VanFlow.py) | [`Documentation`](docs/VanillaFlow.md)
-- RealNVP [`Paper`](https://arxiv.org/abs/1605.08803) | [`Code`](src/generativezoo/models/NF/RealNVP.py)<sup>15</sup> | [`Script`](src/generativezoo/RealNVP.py) | [`Documentation`](docs/RealNVP.md)
+- RealNVP [`Paper`](https://arxiv.org/abs/1605.08803) | [`Code`](src/generativezoo/models/NF/RealNVP.py)<sup>15</sup> | [`Script`](src/generativezoo/RNVP.py) | [`Documentation`](docs/RealNVP.md)
 - Glow [`Paper`](https://arxiv.org/abs/1807.03039) | [`Code`](src/generativezoo/models/NF/Glow.py)<sup>16</sup> | [`Script`](src/generativezoo/GLOW.py) | [`Documentation`](docs/Glow.md)
 - Flow++ [`Paper`](https://arxiv.org/abs/1902.00275) | [`Code`](src/generativezoo/models/NF/FlowPlusPlus.py)<sup>17</sup> | [`Script`](src/generativezoo/FlowPP.py) | [`Documentation`](docs/FlowPlusPlus.md)
 
@@ -174,6 +204,7 @@ The following datasets are ready to be used to train and sample from the provide
 - TinyImageNet [`Source`](https://cs231n.stanford.edu/reports/2015/pdfs/yle_project.pdf) **MANUAL DOWNLOAD REQUIRED** [`Link`](https://www.kaggle.com/datasets/nikhilshingadiya/tinyimagenet200)
 - Horse2Zebra [`Source`](https://arxiv.org/abs/1703.10593v6) **MANUAL DOWNLOAD REQUIRED** [`Link`](https://www.kaggle.com/datasets/balraj98/horse2zebra-dataset)
 - ImageNet-1k [`Source`](https://ieeexplore.ieee.org/abstract/document/5206848)
+- CelebA [`Source`](https://arxiv.org/abs/1411.7766)
 
 ## Tracking
 
