@@ -5,7 +5,7 @@ import torch
 import wandb
 
 
-def run_HVAE(args):
+def run(args):
     size = None
 
     if args.train:
@@ -35,8 +35,5 @@ def run_HVAE(args):
         return model.sample(16)
 
 
-if __name__ == '__main__':
-
-    args = parse_args_HierarchicalVAE()
-
-    run_HVAE(args)
+if __name__ == "__main__":
+    run(parse_args_HierarchicalVAE())

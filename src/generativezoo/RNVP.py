@@ -1,10 +1,11 @@
 from models.NF.RealNVP import RealNVP
 from data.Dataloaders import *
 from utils.util import parse_args_RealNVP
+import torch
 import wandb
 
 
-def run_RealNVP(args):
+def run(args):
     size = None
 
     if args.train:
@@ -49,8 +50,5 @@ def run_RealNVP(args):
         model.outlier_detection(in_loader, out_loader)
 
 
-if __name__ == '__main__':
-
-    args = parse_args_RealNVP()
-
-    run_RealNVP(args)
+if __name__ == "__main__":
+    run(parse_args_RealNVP())

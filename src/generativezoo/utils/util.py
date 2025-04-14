@@ -64,8 +64,8 @@ def parse_args_RealNVP():
     return get_args_RealNVP().parse_args()
 
 
-def parse_args_PixelCNN():
-    argparser = argparse.ArgumentParser()
+def get_args_PixelCNN():
+    argparser = argparse.ArgumentParser('PixelCNN')
     argparser.add_argument('--train', action='store_true', default=False, help='train model')
     argparser.add_argument('--sample', action='store_true', default=False, help='sample from model')
     argparser.add_argument('--outlier_detection', action='store_true', default=False, help='outlier detection')
@@ -80,7 +80,10 @@ def parse_args_PixelCNN():
     argparser.add_argument('--checkpoint', type=str, default=None, help='checkpoint path')
     argparser.add_argument('--no_wandb', action='store_true', default=False, help='disable wandb logging')
     argparser.add_argument('--num_workers', type=int, default=0, help='number of workers for dataloader')
-    return argparser.parse_args()
+    return argparser
+
+def parse_args_PixelCNN():
+    return get_args_PixelCNN().parse_args()
 
 def parse_args_VQGAN_Transformer():
     argparser = argparse.ArgumentParser()
