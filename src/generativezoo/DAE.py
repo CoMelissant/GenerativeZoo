@@ -5,10 +5,9 @@ from utils.util import parse_args_DiffAE
 import wandb
 
 
-if __name__ == '__main__':
+def run(args):
 
     device = "cuda" if torch.cuda.is_available() else "cpu"
-    args = parse_args_DiffAE()
 
     size = None
 
@@ -42,3 +41,8 @@ if __name__ == '__main__':
         model.unet.load_state_dict(torch.load(args.checkpoint))
         model.linear_regression(train_dataloader, val_dataloader)
         model.manipulate_latent(val_dataloader)
+
+
+if __name__ == "__main__":
+    args = parse_args_DiffAE()
+    run(args)

@@ -4,11 +4,10 @@ import torch
 from utils.util import parse_args_ConditionalVAE
 import wandb
 
-if __name__ == '__main__':
+def run(args):
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-    args = parse_args_ConditionalVAE()
 
     size = None
 
@@ -45,3 +44,8 @@ if __name__ == '__main__':
         model.sample(title="Sample", train = False)
     else:
         raise ValueError("Invalid mode. Please specify train or sample")
+
+
+if __name__ == "__main__":
+    args = parse_args_ConditionalVAE()
+    run(args)

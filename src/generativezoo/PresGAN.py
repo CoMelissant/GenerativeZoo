@@ -4,8 +4,7 @@ from utils.util import parse_args_PresGAN
 import torch
 import wandb
 
-if __name__ == '__main__':
-    args = parse_args_PresGAN()
+def run(args):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     size = None
@@ -62,3 +61,8 @@ if __name__ == '__main__':
 
     else:
         raise Exception("Invalid mode. Set the --train or --sample flag")
+
+
+if __name__ == "__main__":
+    args = parse_args_PresGAN()
+    run(args)

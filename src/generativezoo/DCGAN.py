@@ -4,8 +4,7 @@ from utils.util import parse_args_DCGAN
 import torch
 import wandb
 
-if __name__ == '__main__':
-    args = parse_args_DCGAN()
+def run(args):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     size = None
@@ -47,3 +46,8 @@ if __name__ == '__main__':
 
     else:
         raise Exception('Please specify either --train, --sample or --outlier_detection. For more information use --help.')
+
+
+if __name__ == "__main__":
+    args = parse_args_DCGAN()
+    run(args)

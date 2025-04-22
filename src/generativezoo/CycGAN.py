@@ -5,9 +5,8 @@ import torch
 import wandb
 from utils.util import parse_args_CycleGAN
 
-if __name__ == '__main__':
+def run(args):
 
-    args = parse_args_CycleGAN()
 
     device = "cuda" if torch.cuda.is_available() else "cpu"
 
@@ -49,3 +48,8 @@ if __name__ == '__main__':
 
     else:
         raise Exception('Please specify either --train or --test')
+
+
+if __name__ == "__main__":
+    args = parse_args_CycleGAN()
+    run(args)

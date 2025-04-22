@@ -4,9 +4,8 @@ from utils.util import parse_args_Glow
 import wandb
 
 
-if __name__ == '__main__':
+def run(args):
 
-    args = parse_args_Glow()
     normalize = False
 
     size = None
@@ -53,3 +52,8 @@ if __name__ == '__main__':
 
     else:
         raise ValueError("Invalid mode. Please specify train or sample")
+
+
+if __name__ == "__main__":
+    args = parse_args_Glow()
+    run(args)

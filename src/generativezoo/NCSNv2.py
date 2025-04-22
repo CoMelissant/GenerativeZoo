@@ -5,11 +5,10 @@ from data.Dataloaders import *
 import wandb
 
 
-if __name__ == '__main__':
+def run(args):
 
     device = "cuda" if torch.cuda.is_available() else "cpu"
 
-    args = parse_args_NCSNv2()
 
     size = None
 
@@ -59,3 +58,8 @@ if __name__ == '__main__':
 
     else:
         raise ValueError("Invalid mode, choose either train, sample or outlier_detection.")
+
+
+if __name__ == "__main__":
+    args = parse_args_NCSNv2()
+    run(args)

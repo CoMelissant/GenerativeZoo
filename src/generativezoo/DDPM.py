@@ -4,10 +4,9 @@ from models.DDPM.DDPM import *
 from utils.util import parse_args_DDPM
 import wandb
 
-if __name__ == '__main__':
+def run(args):
 
      device = "cuda" if torch.cuda.is_available() else "cpu"
-     args = parse_args_DDPM()
      normalize = True
 
      if args.train:
@@ -44,3 +43,8 @@ if __name__ == '__main__':
 
      else:
           raise ValueError('Please specify at least one of the following: train, sample, outlier_detection')
+
+
+if __name__ == "__main__":
+    args = parse_args_DDPM()
+    run(args)

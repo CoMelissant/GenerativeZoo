@@ -3,9 +3,8 @@ from models.FM.RectifiedFlows import RF
 from utils.util import parse_args_RectifiedFlows
 import wandb
 
-if __name__ == '__main__':
+def run(args):
 
-    args = parse_args_RectifiedFlows()
 
 
     if args.train:
@@ -19,3 +18,8 @@ if __name__ == '__main__':
         model = RF(args, input_size, channels)
         model.load_checkpoint(args.checkpoint)
         model.sample(16)
+
+
+if __name__ == "__main__":
+    args = parse_args_RectifiedFlows()
+    run(args)
