@@ -1,6 +1,6 @@
 from models.NF.FlowPlusPlus import *
 from data.Dataloaders import *
-from utils.util import parse_args_FlowPP
+from utils.util import get_args_FlowPP
 import wandb
 
 def run(args):
@@ -46,5 +46,5 @@ def run(args):
 
 
 if __name__ == "__main__":
-    args = parse_args_FlowPP()
+    args = get_args_FlowPP().parse_args()
     run(args)

@@ -1,6 +1,6 @@
 from models.AR.VQGAN_Transformer import *
 from data.Dataloaders import *
-from utils.util import parse_args_VQGAN_Transformer
+from utils.util import get_args_VQGAN_Transformer
 import wandb
 
 def run(args):
@@ -61,5 +61,5 @@ def run(args):
 
 
 if __name__ == "__main__":
-    args = parse_args_VQGAN_Transformer()
+    args = get_args_VQGAN_Transformer().parse_args()
     run(args)

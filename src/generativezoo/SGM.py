@@ -1,6 +1,6 @@
 from models.SM.SGM import *
 from data.Dataloaders import *
-from utils.util import parse_args_SGM
+from utils.util import get_args_SGM
 import torch
 import wandb
 
@@ -29,5 +29,5 @@ def run(args):
 
 
 if __name__ == "__main__":
-    args = parse_args_SGM()
+    args = get_args_SGM().parse_args()
     run(args)

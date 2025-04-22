@@ -1,5 +1,5 @@
 from models.NF.VanillaFlow import VanillaFlow
-from utils.util import parse_args_VanillaFlow
+from utils.util import get_args_VanillaFlow
 from data.Dataloaders import *
 import wandb
 
@@ -44,5 +44,5 @@ def run(args):
 
 
 if __name__ == "__main__":
-    args = parse_args_VanillaFlow()
+    args = get_args_VanillaFlow().parse_args()
     run(args)

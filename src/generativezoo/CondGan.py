@@ -1,6 +1,6 @@
 from models.GAN.ConditionalGAN import *
 from data.Dataloaders import *
-from utils.util import parse_args_CondGAN
+from utils.util import get_args_CondGAN
 import torch
 import wandb
 
@@ -40,5 +40,5 @@ def run(args):
 
 
 if __name__ == "__main__":
-    args = parse_args_CondGAN()
+    args = get_args_CondGAN().parse_args()
     run(args)

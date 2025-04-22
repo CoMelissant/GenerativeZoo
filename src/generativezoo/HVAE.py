@@ -1,6 +1,6 @@
 from models.VAE.HierarchicalVAE import *
 from data.Dataloaders import *
-from utils.util import parse_args_HierarchicalVAE
+from utils.util import get_args_HierarchicalVAE
 import torch
 import wandb
 
@@ -36,4 +36,4 @@ def run(args):
 
 
 if __name__ == "__main__":
-    run(parse_args_HierarchicalVAE())
+    run(get_args_HierarchicalVAE().parse_args())

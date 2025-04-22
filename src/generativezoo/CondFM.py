@@ -1,6 +1,6 @@
 from models.FM.CondFlowMatching import CondFlowMatching
 from data.Dataloaders import *
-from utils.util import parse_args_CondFlowMatching
+from utils.util import get_args_CondFlowMatching
 import wandb
 
 def run(args):
@@ -35,5 +35,5 @@ def run(args):
 
 
 if __name__ == "__main__":
-    args = parse_args_CondFlowMatching()
+    args = get_args_CondFlowMatching().parse_args()
     run(args)

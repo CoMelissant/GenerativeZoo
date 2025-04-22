@@ -5,7 +5,7 @@ import wandb
 import os
 from torchvision import transforms
 from torch.utils.data import DataLoader, Dataset
-from utils.util import parse_args_WassersteinGAN
+from utils.util import get_args_WassersteinGAN
 
 def run(args):
 
@@ -53,5 +53,5 @@ def run(args):
 
 
 if __name__ == "__main__":
-    args = parse_args_WassersteinGAN()
+    args = get_args_WassersteinGAN().parse_args()
     run(args)

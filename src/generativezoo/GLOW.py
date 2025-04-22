@@ -1,6 +1,6 @@
 from models.NF.Glow import *
 from data.Dataloaders import *
-from utils.util import parse_args_Glow
+from utils.util import get_args_Glow
 import wandb
 
 
@@ -55,5 +55,5 @@ def run(args):
 
 
 if __name__ == "__main__":
-    args = parse_args_Glow()
+    args = get_args_Glow().parse_args()
     run(args)

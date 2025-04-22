@@ -1,6 +1,6 @@
 from models.GAN.DCGAN import *
 from data.Dataloaders import *
-from utils.util import parse_args_DCGAN
+from utils.util import get_args_DCGAN
 import torch
 import wandb
 
@@ -49,5 +49,5 @@ def run(args):
 
 
 if __name__ == "__main__":
-    args = parse_args_DCGAN()
+    args = get_args_DCGAN().parse_args()
     run(args)

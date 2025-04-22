@@ -1,7 +1,7 @@
 from models.DDPM.MONAI_DiffAE import DiffAE
 import torch
 from data.Dataloaders import *
-from utils.util import parse_args_DiffAE
+from utils.util import get_args_DiffAE
 import wandb
 
 
@@ -46,5 +46,5 @@ def run(args):
 
 
 if __name__ == "__main__":
-    args = parse_args_DiffAE()
+    args = get_args_DiffAE().parse_args()
     run(args)

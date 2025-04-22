@@ -1,6 +1,6 @@
 from models.AR.VQVAE_Transformer import *
 from data.Dataloaders import *
-from utils.util import parse_args_VQVAE_Transformer
+from utils.util import get_args_VQVAE_Transformer
 import wandb
 
 def run(args):
@@ -49,5 +49,5 @@ def run(args):
 
 
 if __name__ == "__main__":
-    args = parse_args_VQVAE_Transformer()
+    args = get_args_VQVAE_Transformer().parse_args()
     run(args)

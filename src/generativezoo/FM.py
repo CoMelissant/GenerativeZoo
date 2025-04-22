@@ -1,6 +1,6 @@
 from models.FM.FlowMatching import FlowMatching
 from data.Dataloaders import *
-from utils.util import parse_args_FlowMatching
+from utils.util import get_args_FlowMatching
 import wandb
 
 def run(args):
@@ -42,5 +42,5 @@ def run(args):
 
 
 if __name__ == "__main__":
-    args = parse_args_FlowMatching()
+    args = get_args_FlowMatching().parse_args()
     run(args)

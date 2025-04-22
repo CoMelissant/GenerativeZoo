@@ -1,7 +1,7 @@
 from models.VAE.ConditionalVAE import *
 from data.Dataloaders import *
 import torch
-from utils.util import parse_args_ConditionalVAE
+from utils.util import get_args_ConditionalVAE
 import wandb
 
 def run(args):
@@ -47,5 +47,5 @@ def run(args):
 
 
 if __name__ == "__main__":
-    args = parse_args_ConditionalVAE()
+    args = get_args_ConditionalVAE().parse_args()
     run(args)

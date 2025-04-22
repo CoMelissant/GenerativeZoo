@@ -1,6 +1,6 @@
 from data.Dataloaders import pick_dataset
 from models.FM.RectifiedFlows import RF
-from utils.util import parse_args_RectifiedFlows
+from utils.util import get_args_RectifiedFlows
 import wandb
 
 def run(args):
@@ -21,5 +21,5 @@ def run(args):
 
 
 if __name__ == "__main__":
-    args = parse_args_RectifiedFlows()
+    args = get_args_RectifiedFlows().parse_args()
     run(args)

@@ -1,7 +1,7 @@
 from models.VAE.VanillaVAE import *
 from data.Dataloaders import *
 import torch
-from utils.util import parse_args_VanillaVAE
+from utils.util import get_args_VanillaVAE
 import wandb
 
 def run(args):
@@ -53,5 +53,5 @@ def run(args):
 
 
 if __name__ == "__main__":
-    args = parse_args_VanillaVAE()
+    args = get_args_VanillaVAE().parse_args()
     run(args)

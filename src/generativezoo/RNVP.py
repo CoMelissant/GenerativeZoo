@@ -1,6 +1,6 @@
 from models.NF.RealNVP import RealNVP
 from data.Dataloaders import *
-from utils.util import parse_args_RealNVP
+from utils.util import get_args_RealNVP
 import torch
 import wandb
 
@@ -51,4 +51,4 @@ def run(args):
 
 
 if __name__ == "__main__":
-    run(parse_args_RealNVP())
+    run(get_args_RealNVP().parse_args())

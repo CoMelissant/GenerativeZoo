@@ -34,10 +34,6 @@ def get_args_HierarchicalVAE():
     return argparser
 
 
-def parse_args_HierarchicalVAE():
-    return get_args_HierarchicalVAE().parse_args()
-
-
 def get_args_RealNVP():
     argparser = argparse.ArgumentParser()
     argparser.add_argument('--train', action='store_true', default=False, help='train model')
@@ -60,10 +56,6 @@ def get_args_RealNVP():
     return argparser
 
 
-def parse_args_RealNVP():
-    return get_args_RealNVP().parse_args()
-
-
 def get_args_PixelCNN():
     argparser = argparse.ArgumentParser('PixelCNN')
     argparser.add_argument('--train', action='store_true', default=False, help='train model')
@@ -81,10 +73,6 @@ def get_args_PixelCNN():
     argparser.add_argument('--no_wandb', action='store_true', default=False, help='disable wandb logging')
     argparser.add_argument('--num_workers', type=int, default=0, help='number of workers for dataloader')
     return argparser
-
-def parse_args_PixelCNN():
-    return get_args_PixelCNN().parse_args()
-
 
 def get_args_VQGAN_Transformer():
     argparser = argparse.ArgumentParser()
@@ -120,10 +108,6 @@ def get_args_VQGAN_Transformer():
     argparser.add_argument('--no_wandb', action='store_true', default=False, help='disable wandb logging')
     argparser.add_argument('--num_workers', type=int, default=0, help='number of workers for dataloader')
     return argparser
-
-
-def parse_args_VQGAN_Transformer():
-    return get_args_VQGAN_Transformer().parse_args()
 
 
 def get_args_FlowMatching():
@@ -169,10 +153,6 @@ def get_args_FlowMatching():
     return argparser
 
 
-def parse_args_FlowMatching():
-    return get_args_FlowMatching().parse_args()
-
-
 def get_args_CondFlowMatching():
     argparser = argparse.ArgumentParser()
     argparser.add_argument('--train', action='store_true', default=False, help='train model')
@@ -216,10 +196,6 @@ def get_args_CondFlowMatching():
     return argparser
 
 
-def parse_args_CondFlowMatching():
-    return get_args_CondFlowMatching().parse_args()
-
-
 def get_args_RectifiedFlows():
     argparser = argparse.ArgumentParser()
     argparser.add_argument('--train', action='store_true', default=False, help='train model')
@@ -255,10 +231,6 @@ def get_args_RectifiedFlows():
     return argparser
 
 
-def parse_args_RectifiedFlows():
-    return get_args_RectifiedFlows().parse_args()
-
-
 def get_args_VanillaFlow():
     argparser = argparse.ArgumentParser()
     argparser.add_argument('--train', action='store_true', default=False, help='train model')
@@ -278,10 +250,6 @@ def get_args_VanillaFlow():
     argparser.add_argument('--no_wandb', action='store_true', default=False, help='disable wandb logging')
     argparser.add_argument('--num_workers', type=int, default=0, help='number of workers for dataloader')
     return argparser
-
-
-def parse_args_VanillaFlow():
-    return get_args_VanillaFlow().parse_args()
 
 
 def get_args_VQVAE_Transformer():
@@ -313,10 +281,6 @@ def get_args_VQVAE_Transformer():
     return argparser
 
 
-def parse_args_VQVAE_Transformer():
-    return get_args_VQVAE_Transformer().parse_args()
-
-
 def get_args_FlowPP():
     argparser = argparse.ArgumentParser()
     argparser.add_argument('--train', action='store_true', default=False, help='train model')
@@ -342,10 +306,6 @@ def get_args_FlowPP():
     return argparser
 
 
-def parse_args_FlowPP():
-    return get_args_FlowPP().parse_args()
-
-
 def get_args_VanillaVAE():
     argparser = argparse.ArgumentParser()
     argparser.add_argument('--train', action='store_true', default=False, help='train model')
@@ -368,10 +328,6 @@ def get_args_VanillaVAE():
     return argparser
 
 
-def parse_args_VanillaVAE():
-    return get_args_VanillaVAE().parse_args()
-
-
 def get_args_ConditionalVAE():
     argparser = argparse.ArgumentParser()
     argparser.add_argument('--train', action='store_true', default=False, help='train model')
@@ -391,10 +347,6 @@ def get_args_ConditionalVAE():
     argparser.add_argument('--no_wandb', action='store_true', default=False, help='disable wandb logging')
     argparser.add_argument('--num_workers', type=int, default=0, help='number of workers for dataloader')
     return argparser
-
-
-def parse_args_ConditionalVAE():
-    return get_args_ConditionalVAE().parse_args()
 
 
 def get_args_AdversarialVAE():
@@ -423,10 +375,6 @@ def get_args_AdversarialVAE():
     argparser.add_argument('--size', type=int, default=None, help='size of image (leave None for default for each dataset)')
     argparser.add_argument('--patches', type=int, default=16, help='number of patches to divide image into')
     return argparser
-
-
-def parse_args_AdversarialVAE():
-    return get_args_AdversarialVAE().parse_args()
 
 
 def get_args_SGM():
@@ -475,10 +423,6 @@ def get_args_SGM():
     return argparser
 
 
-def parse_args_SGM():
-    return get_args_SGM().parse_args()
-
-
 def get_args_DDPM():
     argparser = argparse.ArgumentParser()
     argparser.add_argument('--train', action='store_true', default=False, help='train model')
@@ -525,10 +469,6 @@ def get_args_DDPM():
     return argparser
 
 
-def parse_args_DDPM():
-    return get_args_DDPM().parse_args()
-
-
 def get_args_CDDPM():
     argparser = argparse.ArgumentParser()
     argparser.add_argument('--train', action='store_true', default=False, help='train model')
@@ -571,10 +511,6 @@ def get_args_CDDPM():
     return argparser
 
 
-def parse_args_CDDPM():
-    return get_args_CDDPM().parse_args()
-
-
 def get_args_DiffAE():
     argparser = argparse.ArgumentParser()
     argparser.add_argument('--train', action='store_true', default=False, help='train model')
@@ -596,10 +532,6 @@ def get_args_DiffAE():
     return argparser
 
 
-def parse_args_DiffAE():
-    return get_args_DiffAE().parse_args()
-
-
 def get_args_CycleGAN():
     argparser = argparse.ArgumentParser()
     argparser.add_argument('--train', action='store_true', default=False, help='train model')
@@ -618,10 +550,6 @@ def get_args_CycleGAN():
     argparser.add_argument('--no_wandb', action='store_true', default=False, help='disable wandb logging')
     argparser.add_argument('--num_workers', type=int, default=0, help='number of workers for dataloader')
     return argparser
-
-
-def parse_args_CycleGAN():
-    return get_args_CycleGAN().parse_args()
 
 
 def get_args_CondGAN():
@@ -645,10 +573,6 @@ def get_args_CondGAN():
     argparser.add_argument('--no_wandb', action='store_true', default=False, help='disable wandb logging')
     argparser.add_argument('--num_workers', type=int, default=0, help='number of workers for dataloader')
     return argparser
-
-
-def parse_args_CondGAN():
-    return get_args_CondGAN().parse_args()
 
 
 def get_args_DCGAN():
@@ -677,10 +601,6 @@ def get_args_DCGAN():
     return argparser
 
 
-def parse_args_DCGAN():
-    return get_args_DCGAN().parse_args()
-
-
 def get_args_WassersteinGAN():
     argparser = argparse.ArgumentParser()
     argparser.add_argument('--train', action='store_true', default=False, help='train model')
@@ -705,10 +625,6 @@ def get_args_WassersteinGAN():
     argparser.add_argument('--no_wandb', action='store_true', default=False, help='disable wandb logging')
     argparser.add_argument('--num_workers', type=int, default=0, help='number of workers for dataloader')
     return argparser
-
-
-def parse_args_WassersteinGAN():
-    return get_args_WassersteinGAN().parse_args()
 
 
 def get_args_PresGAN():
@@ -758,10 +674,6 @@ def get_args_PresGAN():
     return argparser
 
 
-def parse_args_PresGAN():
-    return get_args_PresGAN().parse_args()
-
-
 def get_args_Glow():
     argparser = argparse.ArgumentParser()
     argparser.add_argument('--train', action='store_true', default=False, help='train model')
@@ -793,10 +705,6 @@ def get_args_Glow():
     argparser.add_argument('--warmup', type=int, default=10, help='warmup epochs')
     argparser.add_argument('--decay', type=float, default=1e-5, help='decay rate')
     return argparser
-
-
-def parse_args_Glow():
-    return get_args_Glow().parse_args()
 
 
 def get_args_NCSNv2():
@@ -836,9 +744,5 @@ def get_args_NCSNv2():
     argparser.add_argument('--no_wandb', action='store_true', default=False, help='disable wandb logging')
     argparser.add_argument('--num_workers', type=int, default=0, help='number of workers for dataloader')
     return argparser
-
-
-def parse_args_NCSNv2():
-    return get_args_NCSNv2().parse_args()
 
 

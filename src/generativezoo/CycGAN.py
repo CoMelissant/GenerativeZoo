@@ -3,7 +3,7 @@ from data.CycleGAN_Dataloaders import *
 from config import data_raw_dir
 import torch
 import wandb
-from utils.util import parse_args_CycleGAN
+from utils.util import get_args_CycleGAN
 
 def run(args):
 
@@ -51,5 +51,5 @@ def run(args):
 
 
 if __name__ == "__main__":
-    args = parse_args_CycleGAN()
+    args = get_args_CycleGAN().parse_args()
     run(args)

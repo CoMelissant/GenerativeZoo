@@ -1,6 +1,6 @@
 from models.GAN.AdversarialVAE import *
 from data.Dataloaders import *
-from utils.util import parse_args_AdversarialVAE
+from utils.util import get_args_AdversarialVAE
 import torch
 import wandb
 
@@ -57,5 +57,5 @@ def run(args):
 
 
 if __name__ == "__main__":
-    args = parse_args_AdversarialVAE()
+    args = get_args_AdversarialVAE().parse_args()
     run(args)
