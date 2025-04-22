@@ -57,6 +57,7 @@ class ModelInterface:
     inputs: Union[List[Tuple[str, List[str], dict]], None] = None
     run_function: str
     sub_parser: Union[argparse.ArgumentParser, None] = None
+    model_type: Union[str, None] = None
 
     @classmethod
     def get_parser(cls, parser: argparse.ArgumentParser):
@@ -105,6 +106,7 @@ class ModelInterface:
 class HierarchicalVAE(ModelInterface):
     module = "HVAE"
     run_function = "HVAE.run"
+    model_type = "VAE"
 
     # Register the input arguments for the model.
     # Argument name, list of actions they are used in, argument parser inputs.
@@ -124,6 +126,7 @@ class HierarchicalVAE(ModelInterface):
 class RealNVP(ModelInterface):
     module = "RNVP"
     run_function = "RNVP.run"
+    model_type = "Normalizing Flows"
 
     inputs = [
         ('--dataset', ["t", "s", "o"], dict(type=str, default=DATASETS[0], help='dataset name', choices=DATASETS)),
@@ -146,6 +149,7 @@ class RealNVP(ModelInterface):
 class AdversarialVAE(ModelInterface):
     module = "AdvVAE"
     run_function = "AdvVAE.run"
+    model_type = "GAN"
 
     # Get the standard ArgumentParser object.
     sub_parser = gzutil.get_args_AdversarialVAE()
@@ -154,6 +158,7 @@ class AdversarialVAE(ModelInterface):
 class ConditionalDDPM(ModelInterface):
     module = "CondDDPM"
     run_function = "CondDDPM.run"
+    model_type = "DDPM"
 
     # Get the standard ArgumentParser object.
     sub_parser = gzutil.get_args_CDDPM()
@@ -162,6 +167,7 @@ class ConditionalDDPM(ModelInterface):
 class CondFlowMatching(ModelInterface):
     module = "CondFM"
     run_function = "CondFM.run"
+    model_type = "Flow Matching"
 
     # Get the standard ArgumentParser object.
     sub_parser = gzutil.get_args_CondFlowMatching()
@@ -170,6 +176,7 @@ class CondFlowMatching(ModelInterface):
 class ConditionalGAN(ModelInterface):
     module = "CondGan"
     run_function = "CondGan.run"
+    model_type = "GAN"
 
     # Get the standard ArgumentParser object.
     sub_parser = gzutil.get_args_CondGAN()
@@ -178,6 +185,7 @@ class ConditionalGAN(ModelInterface):
 class ConditionalVAE(ModelInterface):
     module = "CondVAE"
     run_function = "CondVAE.run"
+    model_type = "VAE"
 
     # Get the standard ArgumentParser object.
     sub_parser = gzutil.get_args_ConditionalVAE()
@@ -186,6 +194,7 @@ class ConditionalVAE(ModelInterface):
 class CycleGAN(ModelInterface):
     module = "CycGAN"
     run_function = "CycGAN.run"
+    model_type = "GAN"
 
     # Get the standard ArgumentParser object.
     sub_parser = gzutil.get_args_CycleGAN()
@@ -194,6 +203,7 @@ class CycleGAN(ModelInterface):
 class DiffAE(ModelInterface):
     module = "DAE"
     run_function = "DAE.run"
+    model_type = "DDPM"
 
     # Get the standard ArgumentParser object.
     sub_parser = gzutil.get_args_DiffAE()
@@ -202,6 +212,7 @@ class DiffAE(ModelInterface):
 class DCGAN(ModelInterface):
     module = "DCGAN"
     run_function = "DCGAN.run"
+    model_type = "GAN"
 
     # Get the standard ArgumentParser object.
     sub_parser = gzutil.get_args_DCGAN()
@@ -210,6 +221,7 @@ class DCGAN(ModelInterface):
 class DDPM(ModelInterface):
     module = "DDPM"
     run_function = "DDPM.run"
+    model_type = "DDPM"
 
     # Get the standard ArgumentParser object.
     sub_parser = gzutil.get_args_DDPM()
@@ -218,6 +230,7 @@ class DDPM(ModelInterface):
 class FlowPlusPlus(ModelInterface):
     module = "FlowPP"
     run_function = "FlowPP.run"
+    model_type = "Normalizing Flows"
 
     # Get the standard ArgumentParser object.
     sub_parser = gzutil.get_args_FlowPP()
@@ -226,6 +239,7 @@ class FlowPlusPlus(ModelInterface):
 class FlowMatching(ModelInterface):
     module = "FM"
     run_function = "FM.run"
+    model_type = "Flow Matching"
 
     # Get the standard ArgumentParser object.
     sub_parser = gzutil.get_args_FlowMatching()
@@ -234,6 +248,7 @@ class FlowMatching(ModelInterface):
 class Glow(ModelInterface):
     module = "GLOW"
     run_function = "GLOW.run"
+    model_type = "Normalizing Flows"
 
     # Get the standard ArgumentParser object.
     sub_parser = gzutil.get_args_Glow()
@@ -242,6 +257,7 @@ class Glow(ModelInterface):
 class NCSNv2(ModelInterface):
     module = "NCSNv2"
     run_function = "NCSNv2.run"
+    model_type = "Score Matching"
 
     # Get the standard ArgumentParser object.
     sub_parser = gzutil.get_args_NCSNv2()
@@ -250,6 +266,7 @@ class NCSNv2(ModelInterface):
 class PixelCNN(ModelInterface):
     module = "P-CNN"
     run_function = "P-CNN.run"
+    model_type = "Autoregressive"
 
     # Get the standard ArgumentParser object.
     sub_parser = gzutil.get_args_PixelCNN()
@@ -258,6 +275,7 @@ class PixelCNN(ModelInterface):
 class PresGAN(ModelInterface):
     module = "PresGAN"
     run_function = "PresGAN.run"
+    model_type = "GAN"
 
     # Get the standard ArgumentParser object.
     sub_parser = gzutil.get_args_PresGAN()
@@ -266,6 +284,7 @@ class PresGAN(ModelInterface):
 class RF(ModelInterface):
     module = "RF"
     run_function = "RF.run"
+    model_type = "Flow Matching"
 
     # Get the standard ArgumentParser object.
     sub_parser = gzutil.get_args_RectifiedFlows()
@@ -274,6 +293,7 @@ class RF(ModelInterface):
 class SGM(ModelInterface):
     module = "SGM"
     run_function = "SGM.run"
+    model_type = "Score Matching"
 
     # Get the standard ArgumentParser object.
     sub_parser = gzutil.get_args_SGM()
@@ -282,6 +302,7 @@ class SGM(ModelInterface):
 class VanillaFlow(ModelInterface):
     module = "VanFlow"
     run_function = "VanFlow.run"
+    model_type = "Normalizing Flows"
 
     # Get the standard ArgumentParser object.
     sub_parser = gzutil.get_args_VanillaFlow()
@@ -290,6 +311,7 @@ class VanillaFlow(ModelInterface):
 class VanillaVAE(ModelInterface):
     module = "VanVAE"
     run_function = "VanVAE.run"
+    model_type = "VAE"
 
     # Get the standard ArgumentParser object.
     sub_parser = gzutil.get_args_VanillaVAE()
@@ -298,6 +320,7 @@ class VanillaVAE(ModelInterface):
 class VQGANTransformer(ModelInterface):
     module = "VQGAN_T"
     run_function = "VQGAN_T.run"
+    model_type = "Autoregressive"
 
     # Get the standard ArgumentParser object.
     sub_parser = gzutil.get_args_VQGAN_Transformer()
@@ -306,6 +329,7 @@ class VQGANTransformer(ModelInterface):
 class VQVAETransformer(ModelInterface):
     module = "VQVAE_T"
     run_function = "VQVAE_T.run"
+    model_type = "Autoregressive"
 
     # Get the standard ArgumentParser object.
     sub_parser = gzutil.get_args_VQVAE_Transformer()
@@ -314,6 +338,7 @@ class VQVAETransformer(ModelInterface):
 class WGAN(ModelInterface):
     module = "WGAN"
     run_function = "WGAN.run"
+    model_type = "GAN"
 
     # Get the standard ArgumentParser object.
     sub_parser = gzutil.get_args_WassersteinGAN()
