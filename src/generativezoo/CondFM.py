@@ -4,6 +4,8 @@ from utils.util import parse_args_CondFlowMatching
 import wandb
 
 def run(args):
+    args.channel_mult = tuple(args.channel_mult)
+    args.attention_resolutions = tuple(args.attention_resolutions)
 
 
     if args.train:

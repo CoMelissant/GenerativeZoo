@@ -85,6 +85,7 @@ def get_args_PixelCNN():
 def parse_args_PixelCNN():
     return get_args_PixelCNN().parse_args()
 
+
 def get_args_VQGAN_Transformer():
     argparser = argparse.ArgumentParser()
     argparser.add_argument('--train', action='store_true', default=False, help='train model')
@@ -122,12 +123,7 @@ def get_args_VQGAN_Transformer():
 
 
 def parse_args_VQGAN_Transformer():
-    args = get_args_VQGAN_Transformer().parse_args()
-    args.num_channels = tuple(args.num_channels)
-    args.num_res_channels = tuple(args.num_res_channels)
-    args.downsample_parameters = (tuple(args.downsample_parameters), tuple(args.downsample_parameters))
-    args.upsample_parameters = (tuple(args.upsample_parameters), tuple(args.upsample_parameters))
-    return args
+    return get_args_VQGAN_Transformer().parse_args()
 
 
 def get_args_FlowMatching():
@@ -174,10 +170,7 @@ def get_args_FlowMatching():
 
 
 def parse_args_FlowMatching():
-    args = get_args_FlowMatching().parse_args()
-    args.channel_mult = tuple(args.channel_mult)
-    args.attention_resolutions = tuple(args.attention_resolutions)
-    return args
+    return get_args_FlowMatching().parse_args()
 
 
 def get_args_CondFlowMatching():
@@ -224,10 +217,7 @@ def get_args_CondFlowMatching():
 
 
 def parse_args_CondFlowMatching():
-    args = get_args_CondFlowMatching().parse_args()
-    args.channel_mult = tuple(args.channel_mult)
-    args.attention_resolutions = tuple(args.attention_resolutions)
-    return args
+    return get_args_CondFlowMatching().parse_args()
 
 
 def get_args_RectifiedFlows():
@@ -266,9 +256,7 @@ def get_args_RectifiedFlows():
 
 
 def parse_args_RectifiedFlows():
-    args = get_args_RectifiedFlows().parse_args()
-    
-    return args
+    return get_args_RectifiedFlows().parse_args()
 
 
 def get_args_VanillaFlow():
@@ -293,9 +281,7 @@ def get_args_VanillaFlow():
 
 
 def parse_args_VanillaFlow():
-    args = get_args_VanillaFlow().parse_args()
-    
-    return args
+    return get_args_VanillaFlow().parse_args()
 
 
 def get_args_VQVAE_Transformer():
@@ -328,12 +314,7 @@ def get_args_VQVAE_Transformer():
 
 
 def parse_args_VQVAE_Transformer():
-    args = get_args_VQVAE_Transformer().parse_args()
-    args.num_channels = tuple(args.num_channels)
-    args.num_res_channels = tuple(args.num_res_channels)
-    args.downsample_parameters = (tuple(args.downsample_parameters), tuple(args.downsample_parameters))
-    args.upsample_parameters = (tuple(args.upsample_parameters), tuple(args.upsample_parameters))
-    return args
+    return get_args_VQVAE_Transformer().parse_args()
 
 
 def get_args_FlowPP():
@@ -362,9 +343,7 @@ def get_args_FlowPP():
 
 
 def parse_args_FlowPP():
-    args = get_args_FlowPP().parse_args()
-    
-    return args
+    return get_args_FlowPP().parse_args()
 
 
 def get_args_VanillaVAE():
@@ -390,9 +369,7 @@ def get_args_VanillaVAE():
 
 
 def parse_args_VanillaVAE():
-    args = get_args_VanillaVAE().parse_args()
-    
-    return args
+    return get_args_VanillaVAE().parse_args()
 
 
 def get_args_ConditionalVAE():
@@ -417,9 +394,7 @@ def get_args_ConditionalVAE():
 
 
 def parse_args_ConditionalVAE():
-    args = get_args_ConditionalVAE().parse_args()
-    
-    return args
+    return get_args_ConditionalVAE().parse_args()
 
 
 def get_args_AdversarialVAE():
@@ -451,9 +426,7 @@ def get_args_AdversarialVAE():
 
 
 def parse_args_AdversarialVAE():
-    args = get_args_AdversarialVAE().parse_args()
-    
-    return args
+    return get_args_AdversarialVAE().parse_args()
 
 
 def get_args_SGM():
@@ -503,10 +476,7 @@ def get_args_SGM():
 
 
 def parse_args_SGM():
-    args = get_args_SGM().parse_args()
-    args.channel_mult = tuple(args.channel_mult)
-    args.attention_resolutions = tuple(args.attention_resolutions)
-    return args
+    return get_args_SGM().parse_args()
 
 
 def get_args_DDPM():
@@ -556,10 +526,7 @@ def get_args_DDPM():
 
 
 def parse_args_DDPM():
-    args = get_args_DDPM().parse_args()
-    args.channel_mult = tuple(args.channel_mult)
-    args.attention_resolutions = tuple(args.attention_resolutions)
-    return args
+    return get_args_DDPM().parse_args()
 
 
 def get_args_CDDPM():
@@ -605,10 +572,7 @@ def get_args_CDDPM():
 
 
 def parse_args_CDDPM():
-    args = get_args_CDDPM().parse_args()
-    args.channel_mult = tuple(args.channel_mult)
-    args.attention_resolutions = tuple(args.attention_resolutions)
-    return args
+    return get_args_CDDPM().parse_args()
 
 
 def get_args_DiffAE():
@@ -633,10 +597,7 @@ def get_args_DiffAE():
 
 
 def parse_args_DiffAE():
-    args = get_args_DiffAE().parse_args()
-    args.model_channels = tuple(args.model_channels)
-    args.attention_levels = tuple(args.attention_levels)
-    return args
+    return get_args_DiffAE().parse_args()
 
 
 def get_args_CycleGAN():
@@ -660,9 +621,7 @@ def get_args_CycleGAN():
 
 
 def parse_args_CycleGAN():
-    args = get_args_CycleGAN().parse_args()
-    
-    return args
+    return get_args_CycleGAN().parse_args()
 
 
 def get_args_CondGAN():
@@ -689,9 +648,7 @@ def get_args_CondGAN():
 
 
 def parse_args_CondGAN():
-    args = get_args_CondGAN().parse_args()
-    
-    return args
+    return get_args_CondGAN().parse_args()
 
 
 def get_args_DCGAN():
@@ -721,9 +678,7 @@ def get_args_DCGAN():
 
 
 def parse_args_DCGAN():
-    args = get_args_DCGAN().parse_args()
-    
-    return args
+    return get_args_DCGAN().parse_args()
 
 
 def get_args_WassersteinGAN():
@@ -753,9 +708,7 @@ def get_args_WassersteinGAN():
 
 
 def parse_args_WassersteinGAN():
-    args = get_args_WassersteinGAN().parse_args()
-    
-    return args
+    return get_args_WassersteinGAN().parse_args()
 
 
 def get_args_PresGAN():
@@ -806,9 +759,7 @@ def get_args_PresGAN():
 
 
 def parse_args_PresGAN():
-    args = get_args_PresGAN().parse_args()
-    
-    return args
+    return get_args_PresGAN().parse_args()
 
 
 def get_args_Glow():
@@ -845,9 +796,7 @@ def get_args_Glow():
 
 
 def parse_args_Glow():
-    args = get_args_Glow().parse_args()
-    
-    return args
+    return get_args_Glow().parse_args()
 
 
 def get_args_NCSNv2():
@@ -890,8 +839,6 @@ def get_args_NCSNv2():
 
 
 def parse_args_NCSNv2():
-    args = get_args_NCSNv2().parse_args()
-    
-    return args
+    return get_args_NCSNv2().parse_args()
 
-# EOF
+

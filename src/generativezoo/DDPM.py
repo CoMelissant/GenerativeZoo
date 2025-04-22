@@ -5,6 +5,8 @@ from utils.util import parse_args_DDPM
 import wandb
 
 def run(args):
+    args.channel_mult = tuple(args.channel_mult)
+    args.attention_resolutions = tuple(args.attention_resolutions)
 
      device = "cuda" if torch.cuda.is_available() else "cpu"
      normalize = True

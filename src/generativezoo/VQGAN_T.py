@@ -4,6 +4,10 @@ from utils.util import parse_args_VQGAN_Transformer
 import wandb
 
 def run(args):
+    args.num_channels = tuple(args.num_channels)
+    args.num_res_channels = tuple(args.num_res_channels)
+    args.downsample_parameters = (tuple(args.downsample_parameters), tuple(args.downsample_parameters))
+    args.upsample_parameters = (tuple(args.upsample_parameters), tuple(args.upsample_parameters))
 
 
     size = None

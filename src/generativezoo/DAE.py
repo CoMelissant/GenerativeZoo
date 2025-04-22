@@ -6,6 +6,8 @@ import wandb
 
 
 def run(args):
+    args.model_channels = tuple(args.model_channels)
+    args.attention_levels = tuple(args.attention_levels)
 
     device = "cuda" if torch.cuda.is_available() else "cpu"
 
