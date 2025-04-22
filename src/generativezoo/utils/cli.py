@@ -24,14 +24,12 @@ def build_parser() -> argparse.ArgumentParser:
         help="Running Models from a GUI. Block results being shown in the backend. Defaults to False.",
     )
 
-    model_parsers = parser.add_subparsers(title="Available models:", required=True)
+    model_parsers = parser.add_subparsers(title="Available models", required=True)
 
     for model in ModelInterface.get_subclasses():
         # Add the CLI commands for the registered models.
         if model.sub_parser:
             model_parsers.add_parser(model.module, parents=[model.sub_parser], add_help=False)
-            # model.sub_parser
-            # o = model_parsers.add_parser("a")
         else:
             model_parser = model_parsers.add_parser(model.module)
             model.get_parser(model_parser)
@@ -56,7 +54,7 @@ class ModelInterface:
     module: str  # Importing may be expensive, so register as string.
 
     # Model inputs registration:
-    inputs: Union[List[Tuple[str, List[str], dict]], None]
+    inputs: Union[List[Tuple[str, List[str], dict]], None] = None
     run_function: str
     sub_parser: Union[argparse.ArgumentParser, None] = None
 
@@ -145,10 +143,177 @@ class RealNVP(ModelInterface):
     ]  # fmt: skip
 
 
+class AdversarialVAE(ModelInterface):
+    module = "AdvVAE"
+    run_function = "AdvVAE.run"
+
+    # Get the standard ArgumentParser object.
+    sub_parser = gzutil.get_args_AdversarialVAE()
+
+
+class ConditionalDDPM(ModelInterface):
+    module = "CondDDPM"
+    run_function = "CondDDPM.run"
+
+    # Get the standard ArgumentParser object.
+    sub_parser = gzutil.get_args_CDDPM()
+
+
+class CondFlowMatching(ModelInterface):
+    module = "CondFM"
+    run_function = "CondFM.run"
+
+    # Get the standard ArgumentParser object.
+    sub_parser = gzutil.get_args_CondFlowMatching()
+
+
+class ConditionalGAN(ModelInterface):
+    module = "CondGan"
+    run_function = "CondGan.run"
+
+    # Get the standard ArgumentParser object.
+    sub_parser = gzutil.get_args_CondGAN()
+
+
+class ConditionalVAE(ModelInterface):
+    module = "CondVAE"
+    run_function = "CondVAE.run"
+
+    # Get the standard ArgumentParser object.
+    sub_parser = gzutil.get_args_ConditionalVAE()
+
+
+class CycleGAN(ModelInterface):
+    module = "CycGAN"
+    run_function = "CycGAN.run"
+
+    # Get the standard ArgumentParser object.
+    sub_parser = gzutil.get_args_CycleGAN()
+
+
+class DiffAE(ModelInterface):
+    module = "DAE"
+    run_function = "DAE.run"
+
+    # Get the standard ArgumentParser object.
+    sub_parser = gzutil.get_args_DiffAE()
+
+
+class DCGAN(ModelInterface):
+    module = "DCGAN"
+    run_function = "DCGAN.run"
+
+    # Get the standard ArgumentParser object.
+    sub_parser = gzutil.get_args_DCGAN()
+
+
+class DDPM(ModelInterface):
+    module = "DDPM"
+    run_function = "DDPM.run"
+
+    # Get the standard ArgumentParser object.
+    sub_parser = gzutil.get_args_DDPM()
+
+
+class FlowPlusPlus(ModelInterface):
+    module = "FlowPP"
+    run_function = "FlowPP.run"
+
+    # Get the standard ArgumentParser object.
+    sub_parser = gzutil.get_args_FlowPP()
+
+
+class FlowMatching(ModelInterface):
+    module = "FM"
+    run_function = "FM.run"
+
+    # Get the standard ArgumentParser object.
+    sub_parser = gzutil.get_args_FlowMatching()
+
+
+class Glow(ModelInterface):
+    module = "GLOW"
+    run_function = "GLOW.run"
+
+    # Get the standard ArgumentParser object.
+    sub_parser = gzutil.get_args_Glow()
+
+
+class NCSNv2(ModelInterface):
+    module = "NCSNv2"
+    run_function = "NCSNv2.run"
+
+    # Get the standard ArgumentParser object.
+    sub_parser = gzutil.get_args_NCSNv2()
+
+
 class PixelCNN(ModelInterface):
     module = "P-CNN"
     run_function = "P-CNN.run"
-    inputs = None
 
     # Get the standard ArgumentParser object.
     sub_parser = gzutil.get_args_PixelCNN()
+
+
+class PresGAN(ModelInterface):
+    module = "PresGAN"
+    run_function = "PresGAN.run"
+
+    # Get the standard ArgumentParser object.
+    sub_parser = gzutil.get_args_PresGAN()
+
+
+class RF(ModelInterface):
+    module = "RF"
+    run_function = "RF.run"
+
+    # Get the standard ArgumentParser object.
+    sub_parser = gzutil.get_args_RectifiedFlows()
+
+
+class SGM(ModelInterface):
+    module = "SGM"
+    run_function = "SGM.run"
+
+    # Get the standard ArgumentParser object.
+    sub_parser = gzutil.get_args_SGM()
+
+
+class VanillaFlow(ModelInterface):
+    module = "VanFlow"
+    run_function = "VanFlow.run"
+
+    # Get the standard ArgumentParser object.
+    sub_parser = gzutil.get_args_VanillaFlow()
+
+
+class VanillaVAE(ModelInterface):
+    module = "VanVAE"
+    run_function = "VanVAE.run"
+
+    # Get the standard ArgumentParser object.
+    sub_parser = gzutil.get_args_VanillaVAE()
+
+
+class VQGANTransformer(ModelInterface):
+    module = "VQGAN_T"
+    run_function = "VQGAN_T.run"
+
+    # Get the standard ArgumentParser object.
+    sub_parser = gzutil.get_args_VQGAN_Transformer()
+
+
+class VQVAETransformer(ModelInterface):
+    module = "VQVAE_T"
+    run_function = "VQVAE_T.run"
+
+    # Get the standard ArgumentParser object.
+    sub_parser = gzutil.get_args_VQVAE_Transformer()
+
+
+class WGAN(ModelInterface):
+    module = "WGAN"
+    run_function = "WGAN.run"
+
+    # Get the standard ArgumentParser object.
+    sub_parser = gzutil.get_args_WassersteinGAN()
