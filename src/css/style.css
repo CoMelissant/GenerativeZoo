@@ -13,6 +13,13 @@ html {
     padding: 0.5rem;
 }
 
+.form-wrapper {
+    max-width: 1000px;
+    justify-self: center;
+    margin-right: auto;
+    margin-left: auto;
+}
+
 .form-group {
     /* Distance between controls (rows) */
     margin-bottom: 0.5rem;

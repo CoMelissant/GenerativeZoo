@@ -1,5 +1,4 @@
 import argparse
-from collections import namedtuple
 import importlib
 import itertools
 import os
@@ -36,7 +35,7 @@ def gui_init(meta_data: dict) -> dict:
     return {
         "form": form_obj,
         "navbar": {
-            "title": "Simian demo",
+            "title": "Generative Zoo",
             "logo": utils.encodeImage(
                 os.path.join(os.path.dirname(__file__), "logo_tasti_light.png")
             ),
@@ -49,12 +48,20 @@ def gui_event(meta_data: dict, payload: dict) -> dict:
     Form.eventHandler(
         modelSelectionChanged=model_change,
         actionSelectionChanged=action_change,
-        runModel=run_model,
+        runModel=run_model_pre,
+        runModelActual=run_model,
     )
 
     # Execute the callback.
     callback = utils.getEventFunction(meta_data, payload)
     return callback(meta_data, payload)
+
+
+def run_model_pre(meta_data: dict, payload: dict) -> dict:
+    """Model run preprocess."""
+    utils.addAlert(payload, "Initializing and running model.", "info")
+    payload["followUp"] = "runModelActual"
+    return payload
 
 
 def run_model(meta_data: dict, payload: dict) -> dict:
@@ -88,16 +95,13 @@ def run_model(meta_data: dict, payload: dict) -> dict:
         argument_names += ["from_ui"]
         value_list += [True]
 
-        # Create a namedtuple that will contain the model input arguments.
-        input_args = namedtuple("args", argument_names)
-
         # Derive the module and function name from the the full function name.
         module_name, _, run_func = model_props[1].rpartition(".")
         module = importlib.import_module(module_name)
         model_run_function = getattr(module, run_func)
 
         # Execute the model run function with the inputs from the ui.
-        model_run_function(input_args(**{k: v for k, v in zip(argument_names, value_list)}))
+        model_run_function(argparse.Namespace(**{k: v for k, v in zip(argument_names, value_list)}))
 
     return payload
 
@@ -158,12 +162,12 @@ def properties_from_interface(model, arg: str = "train"):
     if model.inputs:
         # Model definition uses lists of inputs.
         for line in model.inputs:
-            if len(action_alias) == 0 or action_alias[0] not in line[1]:
+            if len(line[1]) == 0:
+                pass
+            elif len(action_alias) == 0 or action_alias[0] not in line[1]:
                 continue
 
-            required = (len(line[0]) == 1 and not line[0].startswith("-")) or line[2].get(
-                "required", False
-            )
+            required = not line[0].startswith("-") or line[2].get("required", False)
             name = line[0].lstrip("-")
 
             _process_args(name, required, line[2], settings, argument_names)

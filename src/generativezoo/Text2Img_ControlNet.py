@@ -11,23 +11,35 @@ def parse_args():
     args = parser.parse_args()
     return args
 
-args = parse_args()
 
-controlnet = ControlNetModel.from_pretrained(args.cnet_model_path, torch_dtype=torch.float16)
-pipeline = StableDiffusionControlNetPipeline.from_pretrained(
-    "stabilityai/stable-diffusion-2-1", controlnet=controlnet, torch_dtype=torch.float16
-).to("cuda")
+def setup(args):
+    controlnet = ControlNetModel.from_pretrained(args.cnet_model_path, torch_dtype=torch.float16)
+    pipeline = StableDiffusionControlNetPipeline.from_pretrained(
+        "stabilityai/stable-diffusion-2-1", controlnet=controlnet, torch_dtype=torch.float16
+    ).to("cuda")
 
-control_image = load_image(args.cond_image_path)
+    control_image = load_image(args.cond_image_path)
 
-while True:
-    text = input("Enter prompt (0 to exit): ")
-    if text == "0":
-        break
-    image = pipeline(text, num_inference_steps=20, image=control_image).images[0]
-    plt.imshow(image)
-    plt.show()
-    new_cond = input("Enter new conditioning image (0 to keep the same): ")
-    if new_cond == "0":
-        continue
-    control_image = load_image(new_cond)
+    return pipeline, control_image
+
+
+def run(args):
+    pipeline, control_image = setup(args)
+    image = pipeline(args.prompt, num_inference_steps=20, image=control_image).images[0]
+
+
+if __name__ == "__main__":
+    args = parse_args()
+    pipeline, control_image = setup(args)
+
+    while True:
+        text = input("Enter prompt (0 to exit): ")
+        if text == "0":
+            break
+        image = pipeline(text, num_inference_steps=20, image=control_image).images[0]
+        plt.imshow(image)
+        plt.show()
+        new_cond = input("Enter new conditioning image (0 to keep the same): ")
+        if new_cond == "0":
+            continue
+        control_image = load_image(new_cond)

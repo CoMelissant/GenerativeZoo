@@ -103,6 +103,17 @@ class ModelInterface:
             yield subclass
 
 
+class ControlNet(ModelInterface):
+    module = "Text2Img_ControlNet"
+    run_function = "Text2Img_ControlNet.run"
+    model_type = "Stable Diffusion"
+    inputs = [
+        ("--cnet_model_path", [], dict(type=str, help="Path to ControlNet model")),
+        ("--cond_image_path", [], dict(type=str, help="Path to conditioning image")),
+        ("prompt", [], dict(type=str, help="Image generation prompt.")),
+    ]  # fmt: skip
+
+
 class HierarchicalVAE(ModelInterface):
     module = "HVAE"
     run_function = "HVAE.run"
@@ -120,6 +131,18 @@ class HierarchicalVAE(ModelInterface):
         # ('--sample_and_save_freq', [],  dict(type=int, default=5, help='sample and save frequency')),
         ('--no_wandb',   ["t"],         dict(action='store_true', default=False, help='disable wandb logging')),
         ('--num_workers', ["t", "s"],   dict(type=int,   default=0, help='number of workers for dataloader'))
+    ]  # fmt: skip
+
+
+class InstructPix2Pix(ModelInterface):
+    module = "InstructPix2Pix"
+    run_function = "InstructPix2Pix.run"
+    model_type = "Stable Diffusion"
+
+    inputs = [
+        ("--pix2pix_model", [], dict(type=str, help="The name of the Pix2Pix model to use")),
+        ("--image_path", [], dict(type=str, help="The path to the image to edit")),
+        ("prompt", [], dict(type=str, help="Image generation prompt.")),
     ]  # fmt: skip
 
 
@@ -143,6 +166,17 @@ class RealNVP(ModelInterface):
         ('--checkpoint', ["s", "o"], dict(type=str, default=None, help='checkpoint path')),
         ('--no_wandb', ["t"], dict(action='store_true', default=False, help='disable wandb logging')),
         ('--num_workers', ["t"], dict(type=int, default=0, help='number of workers for dataloader')),
+    ]  # fmt: skip
+
+
+class StableDiffusionLoRa(ModelInterface):
+    module = "Text2Img_Lora"
+    run_function = "Text2Img_Lora.run"
+    model_type = "Stable Diffusion"
+
+    inputs = [
+        ("--lora_model_path", [], dict(type=str, help="Path to LoRA model")),
+        ("prompt", [], dict(type=str, help="Image generation prompt.")),
     ]  # fmt: skip
 
 
