@@ -77,6 +77,7 @@ class ModelInterface:
                 elif act in cls.actions:
                     # Create a sub parser that automatically adds itself to the arguments.
                     subparser = subparsers.add_parser(cls.actions[act][0], help=cls.actions[act][1])
+                    subparser.register("type", "custom_dataset", lambda s: "custom_module_" + s)
 
                     # The models expect fields for all actions in the CLI output.
                     # Ensure the current args.action field is set to True and the rest remains False
@@ -122,7 +123,8 @@ class HierarchicalVAE(ModelInterface):
     # Register the input arguments for the model.
     # Argument name, list of actions they are used in, argument parser inputs.
     inputs = [
-        ('--dataset',    ["t", "s"],    dict(type=str,   default=DATASETS[0], help='dataset name', choices=DATASETS)),
+        ('--dataset',    ["t", "s"],    dict(type=str,   default=[DATASETS[0]], help='dataset name', choices=DATASETS)),
+        ('--custom_dataset', ["t", "s"], dict(type="custom_dataset", help='Custom dataset loader module name', dest="dataset")),
         ('--batch_size', ["t", "s"],    dict(type=int,   default=256, help='batch size')),
         ('--n_epochs',   ["t"],         dict(type=int,   default=100, help='number of epochs')),
         ('--lr',         ["t"],         dict(type=float, default=0.01, help='learning rate')),
@@ -153,7 +155,9 @@ class RealNVP(ModelInterface):
 
     inputs = [
         ('--dataset', ["t", "s", "o"], dict(type=str, default=DATASETS[0], help='dataset name', choices=DATASETS)),
+        ('--custom_dataset', ["t", "s"], dict(type="custom_dataset", help='Custom dataset loader module name', dest="dataset")),
         ('--out_dataset', ["o"], dict(type=str, default='fashionmnist', help='outlier dataset name', choices=DATASETS)),
+        ('--custom_out_dataset', ["t", "s"], dict(type="custom_dataset", help='Custom dataset loader module name', dest="out_dataset")),
         ('--batch_size', ["t", "o"], dict(type=int, default=128, help='batch size')),
         ('--n_epochs', ["t"], dict(type=int, default=100, help='number of epochs')),
         ('--lr', ["t"], dict(type=float, default=1e-3, help='learning rate')),

@@ -15,6 +15,25 @@ import io
 from tqdm import tqdm
 from datasets import load_dataset
 
+CUSTOM_DATALOADER_DOC = """'custom_module' dataset option.
+
+Expects the name or full path to a Python module that handles the PyTorch Dataset creation.
+
+The module must contain a function `load_dataset` that accepts the following input arguments.
+
+    mode (str):             Operating mode: 'train' or 'val'.
+    batch_size (integer):   Number of images to put in a batch.
+    normalize (boolean):    Flag for applying normalization at the end of the image transform.
+    input_shape (integer):  Resize size.
+    num_workers (integer):  Number of workers to use during the dataset loading.
+
+And must return the following output arguments.
+
+    dataloader              Pytorch DataLoader object for accessing the dataset data.
+    img_size (integer)      Size of the output images.
+    channels (integer)      Number of channels in the output image.
+"""
+
 
 def cifar_train_loader(batch_size, normalize = False, input_shape = None, num_workers = 0):
 

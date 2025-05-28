@@ -20,6 +20,9 @@ args, unmatched = central_parser.parse_known_args()
 
 
 # Get the run function of the selected model and run it with the selected inputs.
-module_name, _, func_name = args.fcn.rpartition(".")
-mod = importlib.import_module(module_name)
-getattr(mod, func_name)(args)
+if getattr(args, "fcn", None):
+    module_name, _, func_name = args.fcn.rpartition(".")
+    mod = importlib.import_module(module_name)
+    getattr(mod, func_name)(args)
+else:
+    raise RuntimeError(f"Unexpected GenerativeZoo inputs: {unmatched}")
