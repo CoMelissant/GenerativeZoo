@@ -92,6 +92,14 @@ def run_model(meta_data: dict, payload: dict) -> dict:
             argument_names += action_names
             value_list += action_values
 
+        if (
+            "dataset" in argument_names
+            and value_list[argument_names.index("dataset")] == "custom_module"
+        ):
+            # custom_module dataset option selected. Append custom_module with the path to the dataset.
+            dataset_path, _ = utils.getSubmissionData(payload, key="datasetPath")
+            value_list[argument_names.index("dataset")] = "custom_module_" + dataset_path
+
         argument_names += ["from_ui"]
         value_list += [True]
 
@@ -194,6 +202,10 @@ def _process_args(
 ) -> None:
     """Process CLI argument meta data to a PropertyEditor row."""
     type_str, extra_options = _determine_type(meta)
+
+    if name == "dataset" and len(extra_options.get("allowed", [])) > 1:
+        # More than one dataset option. Prepend with "custom_module".
+        extra_options["allowed"].insert(0, "custom_module")
 
     settings.append(
         {

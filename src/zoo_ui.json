@@ -56,6 +56,20 @@
             "input": true
         },
         {
+            "label": "Dataset loader module",
+            "labelPosition": "left-left",
+            "tooltip": "Name of the Dataset loader module to use. Must be on the path and have a 'custom_loader' function that returns a DataLoader object.",
+            "applyMaskOn": "change",
+            "hidden": true,
+            "spellcheck": false,
+            "tableView": true,
+            "validateWhenHidden": false,
+            "key": "datasetPath",
+            "customConditional": "var doShow = false;\nfor (var key in data.settings?.properties) {\n  var prop = data.settings.properties[key];\n  if (prop.value?.grid_meta?.label == \"dataset\" && prop.value?.grid[0].prop__Selection == \"custom_module\") {\n    doShow = true;\n  }\n}\nshow = doShow;",
+            "type": "textfield",
+            "input": true
+        },
+        {
             "label": "Model Settings",
             "className": "simian.gui.composed_component.PropertyEditor",
             "displayHeight": 100,
