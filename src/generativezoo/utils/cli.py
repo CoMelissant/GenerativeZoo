@@ -1,6 +1,23 @@
 """GenerativeZoo central command line interface.
 
 Note that the Models in the zoo also define their own CLI.
+
+
+[For devs] Adding custom dataset command line arguments.
+
+- Register the "custom_dataset" type with the parser and ensure it prepends the specified value with
+  "custom_module_".
+
+  parser.register("type", "custom_dataset", lambda s: "custom_module_" + s)
+
+- As the argument use the "custom_dataset" type and set the `dest` to normal dataset argument name.
+
+  add_argument('--dataset', type=str, default=[DATASETS[0]], help='dataset name', choices=DATASETS),
+  add_argument('--custom_dataset', type="custom_dataset", help='(Full) name of the custom Dataset loader module to use.', dest="dataset"),
+
+The `data.Dataloaders.pick_dataset' function uses the "custom_module_" prepended to the custom
+dataset input as a flag to import the module specified with the text that comes after it. Refer to
+the data.Dataloaders module for more requirements on the custom data loader module.
 """
 
 import argparse
@@ -94,7 +111,13 @@ class ModelInterface:
         return parser
 
     def get_args(cls) -> argparse.Namespace:
-        return cls.get_parser().parse_args()
+        parser = argparse.ArgumentParser()
+        parser.add_argument(
+            "--from_ui",
+            default=False,
+            help="Running Models from a GUI. Block results being shown in the backend. Defaults to False.",
+        )
+        return cls.get_parser(parser).parse_args()
 
     @classmethod
     def get_subclasses(cls):
@@ -123,8 +146,8 @@ class HierarchicalVAE(ModelInterface):
     # Register the input arguments for the model.
     # Argument name, list of actions they are used in, argument parser inputs.
     inputs = [
-        ('--dataset',    ["t", "s"],    dict(type=str,   default=[DATASETS[0]], help='dataset name', choices=DATASETS)),
-        ('--custom_dataset', ["t", "s"], dict(type="custom_dataset", help='Custom dataset loader module name', dest="dataset")),
+        ('--dataset',    ["t", "s"],    dict(type=str, default=[DATASETS[0]], help='dataset name', choices=DATASETS)),
+        ('--custom_dataset', ["t", "s"], dict(type="custom_dataset", help='(Full) name of the custom dataset loader module to use.', dest="dataset")),
         ('--batch_size', ["t", "s"],    dict(type=int,   default=256, help='batch size')),
         ('--n_epochs',   ["t"],         dict(type=int,   default=100, help='number of epochs')),
         ('--lr',         ["t"],         dict(type=float, default=0.01, help='learning rate')),
@@ -155,9 +178,9 @@ class RealNVP(ModelInterface):
 
     inputs = [
         ('--dataset', ["t", "s", "o"], dict(type=str, default=DATASETS[0], help='dataset name', choices=DATASETS)),
-        ('--custom_dataset', ["t", "s"], dict(type="custom_dataset", help='Custom dataset loader module name', dest="dataset")),
+        ('--custom_dataset', ["t", "s", "o"], dict(type="custom_dataset", help='(Full) name of the custom dataset loader module to use.', dest="dataset")),
         ('--out_dataset', ["o"], dict(type=str, default='fashionmnist', help='outlier dataset name', choices=DATASETS)),
-        ('--custom_out_dataset', ["t", "s"], dict(type="custom_dataset", help='Custom dataset loader module name', dest="out_dataset")),
+        ('--custom_out_dataset', ["o"], dict(type="custom_dataset", help='(Full) name of the custom outlier dataset loader module to use.', dest="out_dataset")),
         ('--batch_size', ["t", "o"], dict(type=int, default=128, help='batch size')),
         ('--n_epochs', ["t"], dict(type=int, default=100, help='number of epochs')),
         ('--lr', ["t"], dict(type=float, default=1e-3, help='learning rate')),

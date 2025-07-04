@@ -78,7 +78,7 @@ def run_model(meta_data: dict, payload: dict) -> dict:
         model = model_props[0]
 
         # Get the argument names from the CLI.
-        _, argument_names = properties_from_interface(model, selected_action)
+        _, argument_names, cli_metas = properties_from_interface(model, selected_action)
 
         # Get the selected values from the setting editor.
         table_values, _ = utils.getSubmissionData(payload, key="settings")
@@ -92,13 +92,15 @@ def run_model(meta_data: dict, payload: dict) -> dict:
             argument_names += action_names
             value_list += action_values
 
-        if (
-            "dataset" in argument_names
-            and value_list[argument_names.index("dataset")] == "custom_module"
-        ):
-            # custom_module dataset option selected. Append custom_module with the path to the dataset.
-            dataset_path, _ = utils.getSubmissionData(payload, key="datasetPath")
-            value_list[argument_names.index("dataset")] = "custom_module_" + dataset_path
+        for idx, cli_meta in enumerate(cli_metas):
+            # Replace the standard dataset definitions with corresponding custom ones, if the user
+            # has selected a value.
+            if cli_meta.get("type", None) == "custom_dataset":
+                standard_dataset = cli_meta.get("dest", None)
+                if standard_dataset in argument_names and len(value_list[idx]) > 0:
+                    value_list[argument_names.index(standard_dataset)] = (
+                        "custom_module_" + value_list[idx]
+                    )
 
         argument_names += ["from_ui"]
         value_list += [True]
@@ -150,7 +152,7 @@ def _change_options(payload: dict) -> dict:
         props = REGISTERED_MODELS[selected_model["value"]]
 
         # Convert the Argument parser properties to a PropertyEditor input.
-        settings_list, _ = properties_from_interface(props[0], selected_action)
+        settings_list, _, _ = properties_from_interface(props[0], selected_action)
         new_settings = composed_component.PropertyEditor.prepare_values(settings_list)
 
     # Update the contents of the settings editor.
@@ -165,6 +167,7 @@ def _fill_model_list(comp):
 def properties_from_interface(model, arg: str = "train"):
     settings = []
     argument_names = []
+    cli_types = []
     action_alias = [k for k, vals in model.actions.items() if vals[0] == arg]
 
     if model.inputs:
@@ -179,6 +182,7 @@ def properties_from_interface(model, arg: str = "train"):
             name = line[0].lstrip("-")
 
             _process_args(name, required, line[2], settings, argument_names)
+            cli_types.append(line[2])
 
     else:
         # Model definition contains an ArgumentParser object. (Legacy)
@@ -193,8 +197,9 @@ def properties_from_interface(model, arg: str = "train"):
                 name = arg.dest
 
                 _process_args(name, required, arg.__dict__, settings, argument_names)
+                cli_types.append(arg.__dict__)
 
-    return settings, argument_names
+    return settings, argument_names, cli_types
 
 
 def _process_args(
@@ -202,10 +207,6 @@ def _process_args(
 ) -> None:
     """Process CLI argument meta data to a PropertyEditor row."""
     type_str, extra_options = _determine_type(meta)
-
-    if name == "dataset" and len(extra_options.get("allowed", [])) > 1:
-        # More than one dataset option. Prepend with "custom_module".
-        extra_options["allowed"].insert(0, "custom_module")
 
     settings.append(
         {
@@ -230,7 +231,7 @@ def _determine_type(meta: dict) -> Tuple[str, dict]:
     if choices := meta.get("choices", None):
         type_str = "select"
         extra_options = extra_options | {"allowed": choices}
-    elif data_type is None and meta.get("default", None) is not None:
+    elif data_type is None and "default" in meta:
         # Determine via the default value. (May be `False`)
         data_type = type(meta["default"])
 
@@ -246,5 +247,9 @@ def _determine_type(meta: dict) -> Tuple[str, dict]:
         extra_options = extra_options | {"decimalLimit": 0}
     elif data_type is float:
         type_str = "numeric"
+
+    if type_str is None:
+        # No type detected, this would otherwise cause trouble.
+        type_str = "text"
 
     return type_str, extra_options
