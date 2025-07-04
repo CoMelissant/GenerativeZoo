@@ -2,7 +2,7 @@ from pathlib import Path
 import numpy as np
 import argparse
 
-def parse_args_VQGAN():
+def get_args_VQGAN():
     argparser = argparse.ArgumentParser()
     argparser.add_argument('--train', action='store_true', default=False, help='train model')
     argparser.add_argument('--reconstruct', action='store_true', default=False, help='reconstruct model')
@@ -31,9 +31,9 @@ def parse_args_VQGAN():
     argparser.add_argument('--lr', type=float, default=4.5e-6, help='Learning rate')
     argparser.add_argument('--no_wandb', action='store_true', default=False, help='Disable wandb logging')
     argparser.add_argument('--sample_and_save_freq', type=int, default=20, help='Sample and save frequency')
-    return argparser.parse_args()
+    return argparser
 
-def parse_args_GPT():
+def get_args_GPT():
     argparser = argparse.ArgumentParser()
     argparser.add_argument('--train', action='store_true', default=False, help='train model')
     argparser.add_argument('--sample', action='store_true', default=False, help='sample from model')
@@ -74,9 +74,9 @@ def parse_args_GPT():
     argparser.add_argument('--checkpoint_gpt', type=str, default=None, help='Path to checkpoint for transformer')
     argparser.add_argument('--temperature', type=float, default=1.0, help='Temperature for sampling')
     argparser.add_argument('--top_k', type=int, default=None, help='Top k for sampling')
-    return argparser.parse_args()
+    return argparser
 
-def parse_args_MaskGiT():
+def get_args_MaskGiT():
     argparser = argparse.ArgumentParser()
     argparser.add_argument('--train', action='store_true', default=False, help='train model')
     argparser.add_argument('--sample', action='store_true', default=False, help='sample from model')
@@ -122,7 +122,7 @@ def parse_args_MaskGiT():
     argparser.add_argument("--mask-value",   type=int,   default=None,       help="mask value for sampling")
     argparser.add_argument("--n_classes",       type=int,   default=10,        help="number of classes for sampling")
     argparser.add_argument('--num_samples', type=int, default=16, help='Number of samples to generate')
-    return argparser.parse_args()
+    return argparser
 
 
 def get_args_HierarchicalVAE():

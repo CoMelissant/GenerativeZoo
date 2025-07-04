@@ -26,7 +26,7 @@ from typing import List, Tuple, Union
 import utils.util as gzutil
 
 
-DATASETS = ['mnist', 'cifar10', 'cifar100', 'places365', 'dtd', 'fashionmnist', 'chestmnist', 'octmnist', 'tissuemnist', 'pneumoniamnist', 'svhn', 'tinyimagenet','imagenet', 'celeba']  # fmt: skip
+DATASETS = ['mnist', 'cifar10', 'cifar100', 'places365', 'dtd', 'fashionmnist', 'chestmnist', 'bloodmnist', 'dermamnist', 'dermamnist', 'octmnist', 'tissuemnist', 'pneumoniamnist', 'retinamnist', 'svhn', 'tinyimagenet','imagenet', 'celeba']
 
 
 def build_parser() -> argparse.ArgumentParser:
