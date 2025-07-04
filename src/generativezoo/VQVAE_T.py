@@ -1,11 +1,14 @@
 from models.AR.VQVAE_Transformer import *
 from data.Dataloaders import *
-from utils.util import parse_args_VQVAE_Transformer
+from utils.util import get_args_VQVAE_Transformer
 import wandb
 
-if __name__ == '__main__':
+def run(args):
+    args.num_channels = tuple(args.num_channels)
+    args.num_res_channels = tuple(args.num_res_channels)
+    args.downsample_parameters = (tuple(args.downsample_parameters), tuple(args.downsample_parameters))
+    args.upsample_parameters = (tuple(args.upsample_parameters), tuple(args.upsample_parameters))
 
-    args = parse_args_VQVAE_Transformer()
 
     size = None
 
@@ -43,3 +46,8 @@ if __name__ == '__main__':
         model = VQVAETransformer(args, channels=channels, img_size=input_size)
         model.load_checkpoint(args.checkpoint, args.checkpoint_t)
         model.sample(16, train=False)
+
+
+if __name__ == "__main__":
+    args = get_args_VQVAE_Transformer().parse_args()
+    run(args)

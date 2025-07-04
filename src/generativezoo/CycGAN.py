@@ -3,11 +3,10 @@ from data.CycleGAN_Dataloaders import *
 from config import data_raw_dir
 import torch
 import wandb
-from utils.util import parse_args_CycleGAN
+from utils.util import get_args_CycleGAN
 
-if __name__ == '__main__':
+def run(args):
 
-    args = parse_args_CycleGAN()
 
     device = "cuda" if torch.cuda.is_available() else "cpu"
 
@@ -49,3 +48,8 @@ if __name__ == '__main__':
 
     else:
         raise Exception('Please specify either --train or --test')
+
+
+if __name__ == "__main__":
+    args = get_args_CycleGAN().parse_args()
+    run(args)

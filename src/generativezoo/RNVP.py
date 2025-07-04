@@ -1,12 +1,11 @@
 from models.NF.RealNVP import RealNVP
 from data.Dataloaders import *
-from utils.util import parse_args_RealNVP
+from utils.util import get_args_RealNVP
+import torch
 import wandb
 
-if __name__ == '__main__':
 
-    args = parse_args_RealNVP()
-
+def run(args):
     size = None
 
     if args.train:
@@ -38,7 +37,7 @@ if __name__ == '__main__':
         if args.checkpoint is not None:
             model.load_state_dict(torch.load(args.checkpoint))
 
-        model.sample(16, train=False)
+        return model.sample(16, train=False)
 
     elif args.outlier_detection:
         in_loader, img_size, channels = pick_dataset(args.dataset, mode = 'val', batch_size=args.batch_size, normalize = False, size=size)
@@ -50,3 +49,6 @@ if __name__ == '__main__':
         
         model.outlier_detection(in_loader, out_loader)
 
+
+if __name__ == "__main__":
+    run(get_args_RealNVP().parse_args())

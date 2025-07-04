@@ -1,14 +1,13 @@
 from models.VAE.VanillaVAE import *
 from data.Dataloaders import *
 import torch
-from utils.util import parse_args_VanillaVAE
+from utils.util import get_args_VanillaVAE
 import wandb
 
-if __name__ == '__main__':
+def run(args):
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-    args = parse_args_VanillaVAE()
 
     size = None
 
@@ -51,3 +50,8 @@ if __name__ == '__main__':
         model.outlier_detection(in_loader, out_loader)
     else:
         raise ValueError("Invalid mode. Please specify train or sample")
+
+
+if __name__ == "__main__":
+    args = get_args_VanillaVAE().parse_args()
+    run(args)

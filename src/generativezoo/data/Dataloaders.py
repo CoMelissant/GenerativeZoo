@@ -3,15 +3,36 @@ from torch.utils.data import DataLoader
 from torch.utils.data import Dataset
 from config import data_raw_dir, data_dir
 from medmnist import ChestMNIST, TissueMNIST, OCTMNIST, PneumoniaMNIST, RetinaMNIST
+import importlib
 import os
 from glob import glob
 from PIL import Image
 import numpy as np
+import sys
 import torch
 import tarfile
 import io
 from tqdm import tqdm
 from datasets import load_dataset
+
+CUSTOM_DATALOADER_DOC = """'custom_module' dataset option.
+
+Expects the name or full path to a Python module that handles the PyTorch Dataset creation.
+
+The module must contain a function `load_dataset` that accepts the following input arguments.
+
+    mode (str):             Operating mode: 'train' or 'val'.
+    batch_size (integer):   Number of images to put in a batch.
+    normalize (boolean):    Flag for applying normalization at the end of the image transform.
+    input_shape (integer):  Resize size.
+    num_workers (integer):  Number of workers to use during the dataset loading.
+
+And must return the following output arguments.
+
+    dataloader              Pytorch DataLoader object for accessing the dataset data.
+    img_size (integer)      Size of the output images.
+    channels (integer)      Number of channels in the output image.
+"""
 
 
 def cifar_train_loader(batch_size, normalize = False, input_shape = None, num_workers = 0):
@@ -1138,10 +1159,28 @@ def imagenetpatch_val_loader(batch_size, normalize = False, input_shape = None):
         if input_shape is not None:
             return validation_loader, input_shape, 3
         else:
-            return validation_loader, 64, 3   
+            return validation_loader, 64, 3
 
 def pick_dataset(dataset_name, mode = 'train', batch_size = 64, normalize = False, good = True, size = None, num_workers = 0, n_patches = 16):
-    if dataset_name == 'mnist':
+
+    custom_prefix = "custom_module_"
+    if dataset_name.startswith(custom_prefix):
+        # Custom dataset loader.
+        loader_name = dataset_name.removeprefix(custom_prefix)
+
+        if os.path.isfile(loader_name):
+            # Full module file name. Add the module to the path and import it.
+            path, name = os.path.split(loader_name)
+            sys.path.append(path)
+            loading_module = importlib.import_module(os.path.splitext(name)[0])
+
+        else:
+            # Module name.
+            loading_module = importlib.import_module(loader_name)
+
+        return loading_module.load_dataset(mode, batch_size, normalize, size, num_workers)
+
+    elif dataset_name == 'mnist':
         if mode == 'train':
             return mnist_train_loader(batch_size, normalize, size, num_workers)
         elif mode == 'val':

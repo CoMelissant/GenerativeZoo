@@ -1,13 +1,14 @@
 from models.SM.SGM import *
 from data.Dataloaders import *
-from utils.util import parse_args_SGM
+from utils.util import get_args_SGM
 import torch
 import wandb
 
-if __name__ == '__main__':
+def run(args):
+    args.channel_mult = tuple(args.channel_mult)
+    args.attention_resolutions = tuple(args.attention_resolutions)
 
     device = "cuda" if torch.cuda.is_available() else "cpu"
-    args = parse_args_SGM()
     normalize = True
 
 
@@ -25,3 +26,8 @@ if __name__ == '__main__':
     else:
         raise ValueError('Please specify at least one of the following: train, sample, outlier_detection')
 
+
+
+if __name__ == "__main__":
+    args = get_args_SGM().parse_args()
+    run(args)

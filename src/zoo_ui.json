@@ -1,0 +1,93 @@
+{
+    "components": [
+        {
+            "label": "modelOptions",
+            "key": "modelOptions",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "actionOptions",
+            "key": "actionOptions",
+            "type": "hidden",
+            "input": true,
+            "tableView": false
+        },
+        {
+            "label": "Select model",
+            "widget": "choicesjs",
+            "tableView": true,
+            "dataSrc": "custom",
+            "data": {
+                "custom": "values = data.modelOptions"
+            },
+            "validate": {
+                "required": true
+            },
+            "key": "selectModel",
+            "properties": {
+                "triggerHappy": "modelSelectionChanged"
+            },
+            "type": "select",
+            "input": true
+        },
+        {
+            "label": "Select action",
+            "widget": "choicesjs",
+            "tableView": true,
+            "dataSrc": "custom",
+            "data": {
+                "custom": "values = data.actionOptions"
+            },
+            "validate": {
+                "required": true
+            },
+            "key": "selectAction",
+            "properties": {
+                "triggerHappy": "actionSelectionChanged"
+            },
+            "conditional": {
+                "show": true,
+                "when": "actionOptions"
+            },
+            "customConditional": "console.log(data); show = data.actionOptions.length > 0;",
+            "type": "select",
+            "input": true
+        },
+        {
+            "label": "Dataset loader module",
+            "labelPosition": "left-left",
+            "tooltip": "Name of the Dataset loader module to use. Must be on the path and have a 'custom_loader' function that returns a DataLoader object.",
+            "applyMaskOn": "change",
+            "hidden": true,
+            "spellcheck": false,
+            "tableView": true,
+            "validateWhenHidden": false,
+            "key": "datasetPath",
+            "customConditional": "var doShow = false;\nfor (var key in data.settings?.properties) {\n  var prop = data.settings.properties[key];\n  if (prop.value?.grid_meta?.label == \"dataset\" && prop.value?.grid[0].prop__Selection == \"custom_module\") {\n    doShow = true;\n  }\n}\nshow = doShow;",
+            "type": "textfield",
+            "input": true
+        },
+        {
+            "label": "Model Settings",
+            "className": "simian.gui.composed_component.PropertyEditor",
+            "displayHeight": 100,
+            "tableView": false,
+            "key": "settings",
+            "type": "customcomposed",
+            "input": true
+        },
+        {
+            "label": "Initialize and run model",
+            "showValidations": true,
+            "disableOnInvalid": true,
+            "tableView": false,
+            "key": "runButton",
+            "type": "button",
+            "event": "runModel",
+            "action": "event",
+            "input": true
+        }
+    ]
+}

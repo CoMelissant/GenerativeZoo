@@ -485,6 +485,7 @@ class RealNVP(nn.Module):
         self.img_size = img_size
         self.channels = in_channels
         self.no_wandb = args.no_wandb
+        self.from_ui = args.from_ui
 
     def forward(self, x, reverse=False):
         sldj = None
@@ -584,15 +585,21 @@ class RealNVP(nn.Module):
 
         x = x.clamp(0, 1).cpu().detach()
         grid = make_grid(x, nrow=int(n_samples ** 0.5), padding=0)
-        fig = plt.figure(figsize=(10, 10))
-        plt.imshow(grid.permute(1, 2, 0))
-        plt.axis('off')
-        if train:
-            if not self.no_wandb:
-                wandb.log({"train_samples": fig})
+        result = grid.permute(1, 2, 0)
+        if not self.from_ui:
+            fig = plt.figure(figsize=(10, 10))
+            plt.imshow(result)
+            plt.axis('off')
+            if train:
+                if not self.no_wandb:
+                    wandb.log({"train_samples": fig})
+            else:
+                plt.show()
+            plt.close(fig)
         else:
-            plt.show()
-        plt.close(fig)
+            #outputs.grid = grid
+            return result
+
 
     def outlier_detection(self, in_loader, out_loader):
         """Detect outliers using RealNVP model.

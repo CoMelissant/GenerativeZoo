@@ -1,12 +1,11 @@
 from models.GAN.ConditionalGAN import *
 from data.Dataloaders import *
-from utils.util import parse_args_CondGAN
+from utils.util import get_args_CondGAN
 import torch
 import wandb
 
-if __name__ == '__main__':
+def run(args):
 
-    args = parse_args_CondGAN()
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     size = None
@@ -38,3 +37,8 @@ if __name__ == '__main__':
         model.sample(n_samples = args.n_samples, device = device)
     else:
         raise Exception('Please specify either --train or --sample')
+
+
+if __name__ == "__main__":
+    args = get_args_CondGAN().parse_args()
+    run(args)

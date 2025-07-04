@@ -1,13 +1,14 @@
 import torch
 from data.Dataloaders import *
 from models.DDPM.DDPM import *
-from utils.util import parse_args_DDPM
+from utils.util import get_args_DDPM
 import wandb
 
-if __name__ == '__main__':
+def run(args):
+    args.channel_mult = tuple(args.channel_mult)
+    args.attention_resolutions = tuple(args.attention_resolutions)
 
      device = "cuda" if torch.cuda.is_available() else "cpu"
-     args = parse_args_DDPM()
      normalize = True
 
      if args.train:
@@ -44,3 +45,8 @@ if __name__ == '__main__':
 
      else:
           raise ValueError('Please specify at least one of the following: train, sample, outlier_detection')
+
+
+if __name__ == "__main__":
+    args = get_args_DDPM().parse_args()
+    run(args)

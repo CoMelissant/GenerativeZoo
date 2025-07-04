@@ -1,11 +1,12 @@
 from models.FM.CondFlowMatching import CondFlowMatching
 from data.Dataloaders import *
-from utils.util import parse_args_CondFlowMatching
+from utils.util import get_args_CondFlowMatching
 import wandb
 
-if __name__ == '__main__':
+def run(args):
+    args.channel_mult = tuple(args.channel_mult)
+    args.attention_resolutions = tuple(args.attention_resolutions)
 
-    args = parse_args_CondFlowMatching()
 
     if args.train:
         train_loader, input_size, channels = pick_dataset(args.dataset, batch_size = args.batch_size, normalize=True, num_workers=args.num_workers, size=args.size) 
@@ -31,3 +32,8 @@ if __name__ == '__main__':
         model.image_translation(val_loader)
     else:
         raise ValueError("Invalid mode, please specify train or sample mode.")
+
+
+if __name__ == "__main__":
+    args = get_args_CondFlowMatching().parse_args()
+    run(args)
