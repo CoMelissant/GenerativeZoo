@@ -40,12 +40,14 @@ def cifar_train_loader(batch_size, normalize = False, input_shape = None, num_wo
     if normalize:
         transform = transforms.Compose([
             transforms.Resize(input_shape) if input_shape is not None else transforms.Resize(32),
+            transforms.RandomHorizontalFlip(),
             transforms.ToTensor(),
             transforms.Normalize((0.5,0.5,0.5), (0.5,0.5,0.5))
         ])
     else:
         transform = transforms.Compose([
             transforms.Resize(input_shape) if input_shape is not None else transforms.Resize(32),
+            transforms.RandomHorizontalFlip(),
             transforms.ToTensor(),
         ])
 
@@ -1049,12 +1051,14 @@ def celeba_train_loader(batch_size, normalize = False, input_shape = None, num_w
     if normalize:
         transform = transforms.Compose([
             transforms.Resize((input_shape,input_shape)) if input_shape is not None else transforms.Resize((256,256)),
+            transforms.RandomHorizontalFlip(),
             transforms.ToTensor(),
             transforms.Normalize((0.5,0.5,0.5), (0.5,0.5,0.5)),
         ])
     else:
         transform = transforms.Compose([
             transforms.Resize((input_shape,input_shape)) if input_shape is not None else transforms.Resize((256,256)),
+            transforms.RandomHorizontalFlip(),
             transforms.ToTensor(),
         ])
 
@@ -1128,6 +1132,7 @@ def imagenet_train_loader(batch_size, normalize = False, input_shape = None, num
         if normalize:
             transform = transforms.Compose([
                 transforms.Resize((input_shape,input_shape)) if input_shape is not None else transforms.Resize((128,128)),
+                transforms.RandomHorizontalFlip(),
                 transforms.ToTensor(),
                 transforms.Normalize((0.5,0.5,0.5), (0.5,0.5,0.5)),
             ])
@@ -1136,6 +1141,7 @@ def imagenet_train_loader(batch_size, normalize = False, input_shape = None, num
             transform = transforms.Compose([
                 transforms.CenterCrop(256),
                 transforms.Resize((input_shape,input_shape)) if input_shape is not None else transforms.Resize((128,128)),
+                transforms.RandomHorizontalFlip(),
                 transforms.ToTensor(),
             ])
 

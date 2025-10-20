@@ -13,7 +13,7 @@ def run(args):
     elif args.sample:
         _, input_size, channels = pick_dataset(args.dataset, mode='val', batch_size = args.batch_size, normalize=True, num_workers=args.num_workers, size=args.size)
         model = MaskGIT(args, channels, input_size)
-        model.load_checkpoint(args.checkpoint)
+        model.load_checkpoint(args.checkpoint_vit)
         model.sample()
 
 if __name__ == "__main__":
