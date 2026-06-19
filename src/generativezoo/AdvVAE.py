@@ -1,14 +1,13 @@
 from models.GAN.AdversarialVAE import *
 from data.Dataloaders import *
-from utils.util import parse_args_AdversarialVAE
+from utils.util import get_args_AdversarialVAE
 import torch
 import wandb
 
-if __name__ == '__main__':
+def run(args):
 
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-    args = parse_args_AdversarialVAE()
 
     size = args.size
 
@@ -55,3 +54,8 @@ if __name__ == '__main__':
         model.outlier_detection(in_loader, out_loader)
     else:
         Exception("Invalid mode. Set --train, --test or --sample")
+
+
+if __name__ == "__main__":
+    args = get_args_AdversarialVAE().parse_args()
+    run(args)

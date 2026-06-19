@@ -40,6 +40,7 @@ class WarmupKLLoss:
         self._ready_start_step = 0
         self._ready_for_M_N = False
         self._M_N_decay_speed = (self.M_N - self.eta_M_N) / self.M_N_decay_step
+        
 
     def _get_stage(self, step):
         while True:
@@ -582,7 +583,7 @@ def create_checkpoint_dir():
     
 class HierarchicalVAE(nn.Module):
 
-    def __init__(self, z_dim, img_dim, channels=3, no_wandb=False):
+    def __init__(self, z_dim, img_dim, channels=3, no_wandb=False, from_ui=False):
         '''
         Hierarchical VAE
         :param z_dim: int. Dimension of latent space
@@ -599,6 +600,7 @@ class HierarchicalVAE(nn.Module):
         self.channels = channels
         self.z_dim = z_dim
         self.no_wandb = no_wandb
+        self.from_ui = from_ui
 
         self.adaptive_loss = robust_loss_pytorch.adaptive.AdaptiveLossFunction(
             num_dims=1, float_dtype=np.float32, device="cuda:0" if torch.cuda.is_available() else "cpu")
@@ -721,13 +723,19 @@ class HierarchicalVAE(nn.Module):
         z = torch.randn(num_samples, self.z_dim, self.img_dim//32, self.img_dim//32, device=self.device)
         decoder_output, _ = self.decoder(z)
 
-        fig = plt.figure(figsize=(10, 10))
         grid = make_grid(decoder_output, nrow=int(num_samples ** 0.5))
-        plt.imshow(grid.permute(1, 2, 0).cpu().numpy())
-        plt.axis("off")
-        if train:
-            if not self.no_wandb:
-                wandb.log({"train_samples": fig})
+        result = grid.permute(1, 2, 0).cpu().numpy()
+
+        if self.from_ui:
+            return result
+
         else:
-            plt.show()
+            fig = plt.figure(figsize=(10, 10))
+            plt.imshow(result)
+            plt.axis("off")
+            if train:
+                if not self.no_wandb:
+                    wandb.log({"train_samples": fig})
+            else:
+                plt.show()
         

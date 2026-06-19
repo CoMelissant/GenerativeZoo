@@ -1,14 +1,15 @@
 from models.DDPM.MONAI_DiffAE import DiffAE
 import torch
 from data.Dataloaders import *
-from utils.util import parse_args_DiffAE
+from utils.util import get_args_DiffAE
 import wandb
 
 
-if __name__ == '__main__':
+def run(args):
+    args.model_channels = tuple(args.model_channels)
+    args.attention_levels = tuple(args.attention_levels)
 
     device = "cuda" if torch.cuda.is_available() else "cpu"
-    args = parse_args_DiffAE()
 
     size = None
 
@@ -42,3 +43,8 @@ if __name__ == '__main__':
         model.unet.load_state_dict(torch.load(args.checkpoint))
         model.linear_regression(train_dataloader, val_dataloader)
         model.manipulate_latent(val_dataloader)
+
+
+if __name__ == "__main__":
+    args = get_args_DiffAE().parse_args()
+    run(args)

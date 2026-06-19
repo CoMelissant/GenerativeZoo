@@ -1,11 +1,10 @@
 from models.NF.VanillaFlow import VanillaFlow
-from utils.util import parse_args_VanillaFlow
+from utils.util import get_args_VanillaFlow
 from data.Dataloaders import *
 import wandb
 
-if __name__ == '__main__':
+def run(args):
 
-    args = parse_args_VanillaFlow()
 
     if args.train:
         in_loader, img_size, channels = pick_dataset(args.dataset, 'train', args.batch_size, num_workers=args.num_workers)
@@ -42,3 +41,8 @@ if __name__ == '__main__':
         if args.checkpoint is not None:
             model.flows.load_state_dict(torch.load(args.checkpoint))
         model.outlier_detection(in_loader, out_loader)
+
+
+if __name__ == "__main__":
+    args = get_args_VanillaFlow().parse_args()
+    run(args)

@@ -5,12 +5,11 @@ import wandb
 import os
 from torchvision import transforms
 from torch.utils.data import DataLoader, Dataset
-from utils.util import parse_args_WassersteinGAN
+from utils.util import get_args_WassersteinGAN
 
-if __name__ == '__main__':
+def run(args):
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    args = parse_args_WassersteinGAN()
 
     size = None
 
@@ -51,3 +50,8 @@ if __name__ == '__main__':
         model = WGAN(batch_size = args.batch_size, latent_dim=args.latent_dim, d=args.d, lrg=args.lrg, lrd=args.lrd, beta1=args.beta1, beta2=args.beta2, gp_weight=args.gp_weight, dataset=args.dataset, n_epochs=args.n_epochs, n_critic=args.n_critic, sample_and_save_freq=args.sample_and_save_freq, imgSize=input_size, channels=channels)
         model.D.load_state_dict(torch.load(args.discriminator_checkpoint))
         model.outlier_detection(in_loader, out_loader, display=True)
+
+
+if __name__ == "__main__":
+    args = get_args_WassersteinGAN().parse_args()
+    run(args)

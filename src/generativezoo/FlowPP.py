@@ -1,11 +1,10 @@
 from models.NF.FlowPlusPlus import *
 from data.Dataloaders import *
-from utils.util import parse_args_FlowPP
+from utils.util import get_args_FlowPP
 import wandb
 
-if __name__ == '__main__':
+def run(args):
 
-    args = parse_args_FlowPP()
 
     size = None
 
@@ -44,3 +43,8 @@ if __name__ == '__main__':
         model = FlowPlusPlus(args, channels=channels, img_size=input_size)
         model.load_checkpoints(args)
         model.outlier_detection(in_loader, out_loader)
+
+
+if __name__ == "__main__":
+    args = get_args_FlowPP().parse_args()
+    run(args)

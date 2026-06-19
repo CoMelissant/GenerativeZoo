@@ -1,12 +1,11 @@
 from models.AR.PixelCNN import *
 from data.Dataloaders import *
-from utils.util import parse_args_PixelCNN
+from utils.util import get_args_PixelCNN
 import wandb
 
-if __name__ == '__main__':
-    
-    args = parse_args_PixelCNN()
 
+
+def run(args):
     size = None
 
     if args.train:
@@ -48,3 +47,8 @@ if __name__ == '__main__':
             model.load_state_dict(torch.load(args.checkpoint))
 
         model.outlier_detection(in_loader, out_loader)
+
+
+if __name__ == "__main__":
+    args = get_args_PixelCNN().parse_args()
+    run(args)

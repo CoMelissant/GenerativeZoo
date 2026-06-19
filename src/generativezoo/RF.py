@@ -1,10 +1,9 @@
 from data.Dataloaders import pick_dataset
 from models.FM.RectifiedFlows import RF
-from utils.util import parse_args_RectifiedFlows
+from utils.util import get_args_RectifiedFlows
 
-if __name__ == '__main__':
+def run(args):
 
-    args = parse_args_RectifiedFlows()
 
 
     if args.train:
@@ -22,4 +21,9 @@ if __name__ == '__main__':
         _, input_size, channels = pick_dataset(args.dataset, batch_size = 1, normalize=True, size=args.size)
         model = RF(args, input_size, channels)
         model.load_checkpoint(args.checkpoint)
-        model.fid_sample()
+        model.fid_sample()        model.sample(16)
+
+
+if __name__ == "__main__":
+    args = get_args_RectifiedFlows().parse_args()
+    run(args)
